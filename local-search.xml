@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>开始hexo_Fluid博客编写</title>
+    <link href="/2024/04/16/%E5%BC%80%E5%A7%8Bhexo-Fluid%E5%8D%9A%E5%AE%A2%E7%BC%96%E5%86%99/"/>
+    <url>/2024/04/16/%E5%BC%80%E5%A7%8Bhexo-Fluid%E5%8D%9A%E5%AE%A2%E7%BC%96%E5%86%99/</url>
+    
+    <content type="html"><![CDATA[<h3 id="开始一个博客"><a href="#开始一个博客" class="headerlink" title="开始一个博客"></a>开始一个博客</h3><p>在本地创建的文件夹中（例如myblog），右键git bash here，打开命令行窗口后即可开始操作。<br>ping不上github所以更改端口为7890（clash默认端口），每次必须要打开clash才能部署文章到github上。</p><h2 id="hexo命令"><a href="#hexo命令" class="headerlink" title="hexo命令"></a>hexo命令</h2><p>每次更改完成之后最好先清除之前生成的内容。</p><h3 id="清除之前生成的内容"><a href="#清除之前生成的内容" class="headerlink" title="清除之前生成的内容"></a>清除之前生成的内容</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo clean<br></code></pre></td></tr></table></figure><p>本地预览生成后访问<a href="http://localhost:4000/">http://localhost:4000/</a> 即可查看</p><h3 id="生成本地预览"><a href="#生成本地预览" class="headerlink" title="生成本地预览"></a>生成本地预览</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo s<br></code></pre></td></tr></table></figure><h3 id="生成静态文章"><a href="#生成静态文章" class="headerlink" title="生成静态文章"></a>生成静态文章</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>部署文章可能会有延迟，以本地预览效果为准</p><h3 id="部署文章"><a href="#部署文章" class="headerlink" title="部署文章"></a>部署文章</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hello World</title>
     <link href="/2024/04/16/hello-world/"/>
     <url>/2024/04/16/hello-world/</url>
