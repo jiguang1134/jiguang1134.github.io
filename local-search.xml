@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>1.C++数据类型</title>
+    <link href="/2024/04/24/1.C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    <url>/2024/04/24/1.C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1-数据类型"><a href="#1-数据类型" class="headerlink" title="1. 数据类型"></a>1. 数据类型</h1><p>C++规定在创建一个变量或者常量时，必须要指定出相应的数据类型，否则无法给变量分配内存</p><h2 id="1-1-整型"><a href="#1-1-整型" class="headerlink" title="1.1 整型"></a>1.1 整型</h2><p><strong>作用</strong>：整型变量表示的是整数类型的数据</p><p>C++中能够表示整型的类型有以下几种方式，区别在于所占内存空间不同：</p><table><thead><tr><th>数据类型</th><th>占用空间</th><th>取值范围</th></tr></thead><tbody><tr><td>short(短整型)</td><td>2字节</td><td>(-2^15 ~ 2^15-1)</td></tr><tr><td>int(整型)</td><td>4字节</td><td>(-2^31 ~ 2^31-1)</td></tr><tr><td>long(长整形)</td><td>Windows为4字节，Linux为4字节(32位)，8字节(64位)</td><td>(-2^31 ~ 2^31-1)</td></tr><tr><td>long long(长长整形)</td><td>8字节</td><td>(-2^63 ~ 2^63-1)</td></tr></tbody></table><h2 id="1-2-sozeof关键字"><a href="#1-2-sozeof关键字" class="headerlink" title="1.2 sozeof关键字"></a>1.2 sozeof关键字</h2><p><strong>作用</strong>：利用sizeof关键字可以统计数据类型所占内存大小  </p><p><strong>语法</strong>：<code>sizeof( 数据类型 / 变量)</code>  </p><p><strong>示例</strong>：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br><br>    cout &lt;&lt; <span class="hljs-string">&quot;short 类型所占内存空间为： &quot;</span> &lt;&lt; <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">short</span>) &lt;&lt; endl;<br><br>    cout &lt;&lt; <span class="hljs-string">&quot;int 类型所占内存空间为： &quot;</span> &lt;&lt; <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">int</span>) &lt;&lt; endl;<br><br>    cout &lt;&lt; <span class="hljs-string">&quot;long 类型所占内存空间为： &quot;</span> &lt;&lt; <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">long</span>) &lt;&lt; endl;<br><br>    cout &lt;&lt; <span class="hljs-string">&quot;long long 类型所占内存空间为： &quot;</span> &lt;&lt; <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">long</span> <span class="hljs-type">long</span>) &lt;&lt; endl;<br><br>    <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;pause&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure><blockquote><p>整型结论：short &lt; int &lt;&#x3D; long &lt;&#x3D; long long  </p></blockquote><p><strong>问题</strong>：这里遇到了控制台输出中文乱码的问题，原因是控制台输出的字符格式没有被定义为UTF-8 编码<br><strong>解决方法</strong>：设置控制台输出为UTF-8 编码格式，具体操作如下：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Windows.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-built_in">SetConsoleOutputCP</span>(CP_UTF8);  <span class="hljs-comment">// 设置控制台输出为 UTF-8 编码</span><br>   cout &lt;&lt; <span class="hljs-string">&quot;你好 &quot;</span>&lt;&lt; endl;<br><br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>C++笔记</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+      <tag>数据类型</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>AMC_强化学习_抗干扰</title>
     <link href="/2024/04/24/AMC_%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0_%E6%8A%97%E5%B9%B2%E6%89%B0/"/>
     <url>/2024/04/24/AMC_%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0_%E6%8A%97%E5%B9%B2%E6%89%B0/</url>
