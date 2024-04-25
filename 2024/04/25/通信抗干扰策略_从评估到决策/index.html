@@ -16,24 +16,28 @@
   <meta name="author" content="极光">
   <meta name="keywords" content="">
   
-    <meta name="description" content="对从AMC到基于强化学习的调制方式和编码速率等决策的个人归纳，并考虑在多种干扰条件下调整通信方式。">
+    <meta name="description" content="记录了“通信抗干扰策略生成”方向的学习历程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AMC_强化学习_抗干扰">
-<meta property="og:url" content="https://jiguang1134.github.io/2024/04/24/AMC_%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0_%E6%8A%97%E5%B9%B2%E6%89%B0/index.html">
+<meta property="og:title" content="通信抗干扰策略_从评估到决策">
+<meta property="og:url" content="https://jiguang1134.github.io/2024/04/25/%E9%80%9A%E4%BF%A1%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5_%E4%BB%8E%E8%AF%84%E4%BC%B0%E5%88%B0%E5%86%B3%E7%AD%96/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="对从AMC到基于强化学习的调制方式和编码速率等决策的个人归纳，并考虑在多种干扰条件下调整通信方式。">
+<meta property="og:description" content="记录了“通信抗干扰策略生成”方向的学习历程">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/04/24/AMC_%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0_%E6%8A%97%E5%B9%B2%E6%89%B0/%E8%87%AA%E9%80%82%E5%BA%94%E8%B0%83%E5%88%B6%E7%BC%96%E7%A0%81%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE.png">
-<meta property="article:published_time" content="2024-04-24T09:19:02.000Z">
-<meta property="article:modified_time" content="2024-04-24T10:47:59.265Z">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/04/25/%E9%80%9A%E4%BF%A1%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5_%E4%BB%8E%E8%AF%84%E4%BC%B0%E5%88%B0%E5%86%B3%E7%AD%96/%E8%BD%AF%E7%A7%91%E8%AF%84%E4%BB%B7%E4%BD%93%E7%B3%BB.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/04/25/%E9%80%9A%E4%BF%A1%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5_%E4%BB%8E%E8%AF%84%E4%BC%B0%E5%88%B0%E5%86%B3%E7%AD%96/%E8%BD%AF%E7%A7%91%E8%AF%84%E4%BC%B0%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/04/25/%E9%80%9A%E4%BF%A1%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5_%E4%BB%8E%E8%AF%84%E4%BC%B0%E5%88%B0%E5%86%B3%E7%AD%96/%E8%87%AA%E9%80%82%E5%BA%94%E8%B0%83%E5%88%B6%E7%BC%96%E7%A0%81%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE.png">
+<meta property="article:published_time" content="2024-04-25T09:19:02.000Z">
+<meta property="article:modified_time" content="2024-04-25T09:39:43.259Z">
 <meta property="article:author" content="极光">
+<meta property="article:tag" content="抗干扰策略">
+<meta property="article:tag" content="评估">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://jiguang1134.github.io/2024/04/24/AMC_%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0_%E6%8A%97%E5%B9%B2%E6%89%B0/%E8%87%AA%E9%80%82%E5%BA%94%E8%B0%83%E5%88%B6%E7%BC%96%E7%A0%81%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE.png">
+<meta name="twitter:image" content="https://jiguang1134.github.io/2024/04/25/%E9%80%9A%E4%BF%A1%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5_%E4%BB%8E%E8%AF%84%E4%BC%B0%E5%88%B0%E5%86%B3%E7%AD%96/%E8%BD%AF%E7%A7%91%E8%AF%84%E4%BB%B7%E4%BD%93%E7%B3%BB.png">
   
   
   
-  <title>AMC_强化学习_抗干扰 - Hexo</title>
+  <title>通信抗干扰策略_从评估到决策 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="AMC_强化学习_抗干扰"></span>
+            <span id="subtitle" data-typed-text="通信抗干扰策略_从评估到决策"></span>
           
         </div>
 
@@ -210,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-24 17:19" pubdate>
-          2024年4月24日 下午
+        <time datetime="2024-04-25 17:19" pubdate>
+          2024年4月25日 下午
         </time>
       </span>
     
@@ -222,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          275 字
+          2k 字
         
       </span>
     
@@ -233,7 +237,7 @@
         
         
         
-          3 分钟
+          17 分钟
         
       </span>
     
@@ -270,18 +274,43 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">AMC_强化学习_抗干扰</h1>
+            <h1 id="seo-header">通信抗干扰策略_从评估到决策</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="AMC"><a href="#AMC" class="headerlink" title="AMC"></a>AMC</h1><blockquote>
+                <h1 id="1-评估（多属性决策问题）"><a href="#1-评估（多属性决策问题）" class="headerlink" title="1.评估（多属性决策问题）"></a>1.评估（多属性决策问题）</h1><h2 id="1-1-多属性决策问题研究意义"><a href="#1-1-多属性决策问题研究意义" class="headerlink" title="1.1 多属性决策问题研究意义"></a>1.1 多属性决策问题研究意义</h2><blockquote>
+<p>随着紧急社会的不断发展，人们面临的决策形式和决策环境变得越来越复杂，无论政府的财政决策，还是企业的战略决策，都关乎其未来的发展。在决策科学领域存在一个重要分支，即多属性决策(multiple attribute decision making,MADM)。对多属性决策是由专家或评价者基于多个属性评估值，从多个备选方案中选出最优方案，以供决策者提供参考的过程。<br>常用的信息处理方法主要由两大类:一是传统的决策评价方法，如TOPSIS法、层次分析法(analytic hierarchy process,AHP)、灰色关联方法、投影分析法、VIKOR(vise kriterijumska optimizacijai kompromisino resenje)方法、ELECTRE(elimination et choice translation reality)方法等；二是信息集成算子，如简单的算术加权平均算子、几何加权算子，带有功能性的幂平均算子、BM算子、Heronian平均算子(Heronian mean,HM)以及MSM算子等。</p>
+<blockquote>
+<p>Q阶序对模糊多属性决策理论和方法_刘培德、王鹏  </p>
+</blockquote>
+</blockquote>
+<p>我们需要这些评估方法(多属性决策方法)的原因，是为了解决决策形式和决策环境越来越复杂的问题，换句话说，也就是评估的指标越来越复杂，无法通过简单的方式来对一样事物进行评价。<br>评估的流程可以抽象为：1.选取指标 2. 获取指标参数 3. 综合计算。三步。<br><strong>举例</strong>：软科中国大学排名是一个利用层次分析法进行评估的例子。<br>该问题中决策者为选择学校的学生或老师，评价对象为学校。由于学校是一个综合的对象，存在很多方面的指标，决策者无法通过简单的一个或几个指标来判断一个大学的好坏，所以需要层次分析法，对指标进行分层和分别赋权，最后得到一个评分(评估结果)，最终得到一个大学的排序提供给决策者参考。<br>该问题中建立的层次分析法如图所示：  </p>
+<img src="/2024/04/25/%E9%80%9A%E4%BF%A1%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5_%E4%BB%8E%E8%AF%84%E4%BC%B0%E5%88%B0%E5%86%B3%E7%AD%96/%E8%BD%AF%E7%A7%91%E8%AF%84%E4%BB%B7%E4%BD%93%E7%B3%BB.png" srcset="/img/loading.gif" lazyload class="" width="400" title="软科评价体系">  
+<p>得到的评估结果如图：</p>
+<img src="/2024/04/25/%E9%80%9A%E4%BF%A1%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5_%E4%BB%8E%E8%AF%84%E4%BC%B0%E5%88%B0%E5%86%B3%E7%AD%96/%E8%BD%AF%E7%A7%91%E8%AF%84%E4%BC%B0%E7%BB%93%E6%9E%9C.png" srcset="/img/loading.gif" lazyload class="px" width="400" title="软科评估结果"> 
+
+<blockquote>
+<p>软科 2024软科中国大学排名  </p>
+</blockquote>
+<p>我们可以看出由于一个大学的评价存在多方面的多个指标，在不用任何方法的时候很难进行一个综合评价，所以需要层次分析法。<br>所以在面对多属性决策问题的时候，需要这些算法。</p>
+<h2 id="1-2-数据链评估"><a href="#1-2-数据链评估" class="headerlink" title="1.2 数据链评估"></a>1.2 数据链评估</h2><p>数据链评估问题，带入到多属性决策模型中，就是面临数据链通信性能指标很多和很复杂的情况，需要一种数学算法来综合这些指标的参数，最后得到一个对多种抗干扰方案的评分和排序，给决策者提供参考。<br>那么我们需要思考的是，在数据链评估问题中是否存在这样的问题。<br>首先如果仅针对数据链抗干扰性能，狭义上我认为只需要得到数据链经过干扰前后的<strong>误码率性能</strong>就可以代表数据链抗干扰性能，那么在这种条件下就不需要使用任何数学算法。<br>在更广的意义上，也可以将其他的一些指标引入，以评估数据链的抗干扰性能，例如功率抑制度、频率抑制度、同步时间等，但是我认为大部分指标较为意义不明，功率的抑制或频率的抑制最终对数据链抗干扰能力的影响，也是体现在误码率上的，有误码率就足以代替掉这些指标。<br>我的结论是数据链抗干扰性能不具备建模成多属性决策模型的意义，也不需要数学算法来对其进行评估，因为误码率性能就足以代表数据链的抗干扰性能，事实上很多情况下(比如对数据链进行抗干扰技术的改进之后，也是用误码率性能的提升来体现该算法的好坏)也是就这么做的。<br>拓展到数据链评估，我认为就具有进行评估的意义了。</p>
+<blockquote>
+<p>对通信系统来说,衡量其通信性能的指标有很多,包括有效性、可靠性、适应性、标准性、可维护性以及经济性等,其中最重要的两个性能指标就是有效性和可靠性。</p>
+<blockquote>
+<p>基于强化学习的机载通信波形参数决策方法研究_赵思敏   </p>
+</blockquote>
+</blockquote>
+<p>可以预见的，在拓展的评估对象的范围之后，可以选择的指标变多，可以选择有效性、可靠性、适应性、标准性、可维护性以及经济性等指标。基本满足多属性决策的建模要求，但是除了有效性和可靠性指标之外的指标，无法通过仿真获得，所以事实上能够选择的指标还是非常有限，所以我认为做数据链评估有一定的意义，但意义不大。</p>
+<h2 id="1-3-评估方法"><a href="#1-3-评估方法" class="headerlink" title="1.3 评估方法"></a>1.3 评估方法</h2><p>已知数据链评估有一定意义，但意义不大，所以现有的研究中，该方向的文献比较少，只考虑数学算法，目前现有的数据链评估在层次分析法、TOPSIS法阶段。<br>现有的雷达效能评估处于TOPSIS法、直觉模糊评估阶段。<br>而多属性决策方法目前最新的研究进展是基于q阶模糊集的一些评估方法。引入q阶模糊集的原因是，例如误码率曲线在之前的评估中只用了一个参数代表其效果，这是不合理的，所以在q阶模糊集中，引入了隶属度和非隶属度两个参数来代表一条误码率曲线的性能。<br>然而无论使用什么评估方法，最终的结果都是几个评估值和一个排序，只能自己看图说明该评估方法的优越性，例如敏感性等，并且这样的评估最后在决策时只能列表查询，灵活性比较低。<strong>重要的是</strong>无论用什么数学方法，最后得到的都是一个评分值，难以说明算法的优势，最合理的是从原理上说明。</p>
+<h1 id="2-数据链参数决策"><a href="#2-数据链参数决策" class="headerlink" title="2.数据链参数决策"></a>2.数据链参数决策</h1><h2 id="2-评估到决策"><a href="#2-评估到决策" class="headerlink" title="2. 评估到决策"></a>2. 评估到决策</h2><p>数据链评估的流程，是已经有很多抗干扰方案，例如不同的调制方式、编码方式、跳频策略等，然后分别对这些方案在不同的信道环境下进行评估，得到很多评分值，最终形成一个表格，在决策者面对不同的信道环境时，查表选择不同的抗干扰方案。</p>
+<h1 id="AMC"><a href="#AMC" class="headerlink" title="AMC"></a>AMC</h1><blockquote>
 <p>传统的波形参数决策主要是对调制方式和编码速率的决策,可看作是AMC技术。在传统的AMC技术中,根据信道的状态信息(ChannelStateInformation,CSI),实时地调整调制方式和编码速率最大化系统吞吐量。AMC技术实现主要分为三个步骤:信道状态估计、信噪比估计、MCS切换方案。其中,信道状态估计主要是通过非盲信道、盲信道以及半盲信道估计等方法获取当前信道的估计参数;信噪比估计是将信道的状态信息映射为信噪比(SignalNoiseRatio,SNR)值,目前主要的研究方法有最大似然估计、基于谱估计、基于统计量估计等;MCS切换方案是指根据估计出来的信道状态信息和信噪比值来选择对应的调制方案,目前主要的研究方法有基于固定门限和基于门限调整。</p>
 <blockquote>
 <p>基于强化学习的D2D波形参数决策方法研究_谢霞  </p>
 </blockquote>
 </blockquote>
-<img src="/2024/04/24/AMC_%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0_%E6%8A%97%E5%B9%B2%E6%89%B0/%E8%87%AA%E9%80%82%E5%BA%94%E8%B0%83%E5%88%B6%E7%BC%96%E7%A0%81%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE.png" srcset="/img/loading.gif" lazyload class="" title="自适应调制编码系统框图">
+<img src="/2024/04/25/%E9%80%9A%E4%BF%A1%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5_%E4%BB%8E%E8%AF%84%E4%BC%B0%E5%88%B0%E5%86%B3%E7%AD%96/%E8%87%AA%E9%80%82%E5%BA%94%E8%B0%83%E5%88%B6%E7%BC%96%E7%A0%81%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE.png" srcset="/img/loading.gif" lazyload class="" title="自适应调制编码系统框图">
 
 
 
@@ -310,7 +339,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">强化学习</a>
+  <a href="/categories/%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5/" class="category-chain-item">抗干扰策略</a>
   
   
 
@@ -325,6 +354,10 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
+        <a href="/tags/%E6%8A%97%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5/" class="print-no-link">#抗干扰策略</a>
+      
+        <a href="/tags/%E8%AF%84%E4%BC%B0/" class="print-no-link">#评估</a>
+      
         <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
       
     </div>
@@ -337,8 +370,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>AMC_强化学习_抗干扰</div>
-      <div>https://jiguang1134.github.io/2024/04/24/AMC_强化学习_抗干扰/</div>
+      <div>通信抗干扰策略_从评估到决策</div>
+      <div>https://jiguang1134.github.io/2024/04/25/通信抗干扰策略_从评估到决策/</div>
     </div>
     <div class="license-meta">
       
@@ -350,7 +383,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月24日</div>
+          <div>2024年4月25日</div>
         </div>
       
       
@@ -382,18 +415,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/04/24/1.C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="1.C++数据类型">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">1.C++数据类型</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/24/Markdown%E8%AF%AD%E6%B3%95%E4%BB%8B%E7%BB%8D/" title="Markdown语法介绍">
-                        <span class="hidden-mobile">Markdown语法介绍</span>
+                      <a href="/2024/04/24/1.C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="1.C++数据类型">
+                        <span class="hidden-mobile">1.C++数据类型</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
