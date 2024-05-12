@@ -18,28 +18,25 @@
   
     <meta name="description" content="b站强化学习教程的学习记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="马尔科夫链">
-<meta property="og:url" content="https://jiguang1134.github.io/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/index.html">
+<meta property="og:title" content="蒙特卡洛采样回溯计算V值">
+<meta property="og:url" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/index.html">
 <meta property="og:site_name" content="极光">
 <meta property="og:description" content="b站强化学习教程的学习记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/alphago.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E5%BD%B1%E5%88%86%E8%BA%AB.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E5%BD%B1%E5%88%86%E8%BA%AB%E8%A1%A81.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E5%BD%B1%E5%88%86%E8%BA%AB%E8%A1%A82.png">
-<meta property="article:published_time" content="2024-05-11T12:19:39.000Z">
-<meta property="article:modified_time" content="2024-05-11T13:30:10.729Z">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF2.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF3.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF4.png">
+<meta property="article:published_time" content="2024-05-11T13:44:06.000Z">
+<meta property="article:modified_time" content="2024-05-12T08:51:31.371Z">
 <meta property="article:author" content="极光">
 <meta property="article:tag" content="强化学习">
-<meta property="article:tag" content="马尔科夫链">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://jiguang1134.github.io/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE.png">
+<meta name="twitter:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png">
   
   
   
-  <title>马尔科夫链 - 极光</title>
+  <title>蒙特卡洛采样回溯计算V值 - 极光</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -217,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="马尔科夫链"></span>
+            <span id="subtitle" data-typed-text="蒙特卡洛采样回溯计算V值"></span>
           
         </div>
 
@@ -228,7 +225,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-11 20:19" pubdate>
+        <time datetime="2024-05-11 21:44" pubdate>
           2024年5月11日 晚上
         </time>
       </span>
@@ -240,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          626 字
         
       </span>
     
@@ -251,7 +248,7 @@
         
         
         
-          13 分钟
+          6 分钟
         
       </span>
     
@@ -288,67 +285,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">马尔科夫链</h1>
+            <h1 id="seo-header">蒙特卡洛采样回溯计算V值</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="马尔可夫链"><a href="#马尔可夫链" class="headerlink" title="马尔可夫链"></a>马尔可夫链</h1><p>马尔可夫博弈（Markov Game）也被称为随机博弈。  </p>
-<img src="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE.png" srcset="/img/loading.gif" lazyload class="" title="马尔科夫链">  
-
-<p>有三个重要的元素:S，A，R。我们分别来看一下，他们代表的是什么。然后大家就会明白，为什么马尔科夫链是一个很好很常用的模型。  </p>
-<p>1.智能体在环境中，观察到状态(S)  </p>
-<p>2.状态(S)被输入到智能体，智能体经过计算，选择动作(A);  </p>
-<p>3.动作(A)使智能体进入另外一个状态(S)，并返回奖励(R)给智能体,重复以上步骤，一步一步创造马尔科夫链。  </p>
-<p>4.智能体根据返回，调整自己的策略。  </p>
-<p>所以你看，强化学习跟教孩子是一个道理: 孩子做了好事，必须给奖励;孩子做错事了必须惩罚。就这么简单!  </p>
-<p>其中的不确定性:  </p>
-<ol>
-<li><p>“选择”的过程。<br>智能体“选择”会影响到下一个状态。比如state&#x2F;observation 一样，agent 对于 action 的选择也可能不同，这种不同动作之间的选择，我们称为智能体的策略。策略我们一般用Π表示。我们的任务就是找到一个策略，能够获得最多的奖励。  </p>
-</li>
-<li><p>环境的随机性。<br>这是智能体无法控制的，比如 action 一样但反馈回来新的 state&#x2F;observation 或reward 也可能有所不同。但马尔科夫链允许我们有不确定性的存在。</p>
-</li>
+                <h1 id="Monte-Carlo-Sampling-1947"><a href="#Monte-Carlo-Sampling-1947" class="headerlink" title="Monte Carlo Sampling (1947)"></a>Monte Carlo Sampling (1947)</h1><ol>
+<li>我们把智能体放到环境的任意状态</li>
+<li>从这个状态开始按照策略进行选择动作，并进入新的状态。</li>
+<li>重复步骤 2，直到最终状态</li>
+<li>我们从最终状态开始向前回溯:计算每个状态的 G 值。</li>
+<li>重复 1-4 多次，然后平均每个状态的 G 值，这就是我们需要求的 V 值。<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯"></li>
 </ol>
-<p>所以，这种不确定性来自两个方面:1.智能体的行动选择(策略)。2.环境的不确定性。</p>
-<h1 id="Q值和V值"><a href="#Q值和V值" class="headerlink" title="Q值和V值"></a>Q值和V值</h1><p>当智能体从一个状态S，这马可洛夫告诉我们:选择动作 A，会进入另外一个状态 S’同时，也会给智能体奖励 R。奖励既有正，也有负。正代表我们鼓励智能体在这个状态下继续这么做;负得话代表我们并不希望智能体这么做。在强化学习中，我们会用奖励 R作为智能体学习的引导，期望智能体获得尽可能多的奖励。 </p>
-<p>但更多的时候，我们并不能单纯通过 R来衡量一个动作的好坏。我们必须用长远的眼光来看待问题。我们要把<strong>未来的奖励</strong>也计算到当前状态下，再进行决策。  </p>
-<p>举例，就好比下棋，前期布局当中某一步的效果reward，并不能直接反应出它的作用再如中局弃子可能会使得当前reward 为负，但是或许可以带来未来更大的胜利!  </p>
-<img src="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/alphago.png" srcset="/img/loading.gif" lazyload class="" title="alphago">  
+<p>第一步，我们根据策略往前走，一直走到最后，期间我们什么都不用算，还需要记录每个状态转移，我们获得多少奖励r即可。</p>
+<p>第二步，我们从终点往前走，一遍走一遍计算 G 值。G 值等于上一个状态的 G 值(记作G’),乘以一定的折扣(gamma),再加上r。  </p>
+<blockquote>
+<p><strong>折扣率</strong> 在强化学习中，有某些参数是人为主观制定不能推导，但在实际应用中却能解决问题，所以我们称这些参数为超参数，而折扣率就是一个超参数。与金融产品说的贴现率是类似的。我们计算价值，目的就是把未来很多步奖励，折算到当前节点。但未来n步的奖励的 10 点奖励，与当前的 10 点奖励是否完全等价呢?未必。所以我们人为地给未来的奖励一定的折扣，例如:0.9,0.8，然后在计算到当前的价值。  </p>
+</blockquote>
+<p>所以G值的意义在于，在一次游戏中，某个状态到最终状态的奖励总和(简单理解时科研忽略折扣值)  </p>
+<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF2.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯2">  
 
-<p>所以我们在做决策的时候，需要把眼光放远点，把未来的价值换到当前，才能做出选择。  </p>
-<p>为了方便，我们希望可以有一种方法衡量 agent 做出每种选择的价值。这样，我如果通过方法未卜先知，以后的事情我也不用理了，agent 当前就能选择哪个动作价值更大，就选那个动作就可以了。</p>
-<img src="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE.png" srcset="/img/loading.gif" lazyload class="" title="马尔科夫链">  
-
-<p><strong>评伦动作的价值，我们称为Q值:</strong> 它代表了智能体选择这个动作后，一直到最终状态奖励总和的期望;  </p>
-<p><strong>评估状态的价值，我们称为V值:</strong> 它代表了智能体在这个状态下，一直到最终状态的奖励总和的期望。  </p>
-<p>价值越高，表示我从当前状态到最终状态能获得的平均奖励将会越高。因为智能体的目标数是获取尽可能多的奖励，所以智能体在当前状态，只需要选择价值高的动作就可以了。</p>
-<h2 id="V值"><a href="#V值" class="headerlink" title="V值"></a>V值</h2><p>假设现在需要求某个状态S的V值，那么我们可以这样：  </p>
-<img src="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E5%BD%B1%E5%88%86%E8%BA%AB.png" srcset="/img/loading.gif" lazyload class="" title="影分身">  
+<p>当我们进行多次试验后，我们有可能会经过某个状态多次，通过回，也会有多个G.重复我们刚才说的，每一个G值，就是每次到最终状态获得的奖励总和。而V值，某个状态下，我们通过影分身到达最终状态，所有影分身获得的奖励的平均值。  </p>
+<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF3.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯3">  
 
 <ol>
-<li>我们从S点出发，并影分身出若干个自己;  </li>
-<li>每个分身按照当前的策略 选择行为;</li>
-<li>每个分身一直走到最终状态，并计算一路上获得的所有奖励总和;</li>
-<li>我们计算每个影分身获得的平均值,这个平均值就是我们要求的 V值。</li>
+<li>G 的意义:在某个路径上，状态S到最终状态的总收获。</li>
+<li>V和 G 的关系:V 是 G的平均数。</li>
 </ol>
-<p>用大白话总结就是:从某个状态，按照策略走到最终，最终获得奖励很多很多次，总和的平均值，就是V值。  </p>
-<p>V 值是会根据不同的策略有所变化的!  </p>
-<p>现在我们假设策略 采用平均策略[A1:50%,A2:50%],根据用影分身(如果是学霸直接求期望)，那么我们可以求得 V 值为 15  </p>
-<img src="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E5%BD%B1%E5%88%86%E8%BA%AB%E8%A1%A81.png" srcset="/img/loading.gif" lazyload class="" title="影分身表1">  
-
-<p>现在我们改变策略[A1:60%,A2:40%]，那么我们可以求得 V值为 14，变少了!</p>
-<img src="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/%E5%BD%B1%E5%88%86%E8%BA%AB%E8%A1%A82.png" srcset="/img/loading.gif" lazyload class="" title="影分身表2">  
-
-<h2 id="Q值"><a href="#Q值" class="headerlink" title="Q值"></a>Q值</h2><p>Q 值和 V值的概念是一致的，都是衡量在马可洛夫树上某一个节点的价值。只不过V值衡量的是状态节点的价值，而 Q值衡量的是动作节点的价值。<br>现在我们需要计算，某个状态 S0 下的一个动作 A的 Q 值:<br>1.我们就可以从 A 这个节点出发，使用影分身之术;<br>2.每个影分身走到最终状态,并记录所获得的奖励;<br>3.求取所有影分身获得奖励的平均值，这个平均值就是我们需要求的 Q 值。<br>用大白话总结就是:从某个状态选取动作 A，走到最终状态很多很多次;最终获得奖励总和的平均值，就是 Q值。  </p>
-<ul>
-<li>与V值不同，Q 值和策略并没有直接相关，而与环境的状态转移概率相关而环境的状态转移概率是不变的。</li>
-</ul>
-<h2 id="V值和Q值的关系"><a href="#V值和Q值的关系" class="headerlink" title="V值和Q值的关系"></a>V值和Q值的关系</h2><p>我们可以知道 Q 值和 V 值的意义相通的:</p>
-<ol>
-<li>都是马可洛夫树上的节点</li>
-<li>价值评价的方式是一样的:<br> 从当前节点出发 - 一直走到最终节点 - 所有的奖励的期望值</li>
-</ol>
-<p>V 就是子节点的 Q的期望!但要注意 V值和策略相关。<br>Q 就是子节点的 V的期望!但要注意，记得把R计算在内。</p>
+<p>到这里要注意一点:V和策略是相关的，那么在这里怎么体现呢?  </p>
+<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF4.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯4">  
+<p>蒙地卡罗有一个比较大的缺点，就是每一次游戏，都需要先从头走到尾，再进行回溯更新。如果最终状态很难达到，可能每一次都要转很久很久才能更新一次 G 值。</p>
 
                 
               </div>
@@ -384,8 +350,6 @@
       
         <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
       
-        <a href="/tags/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/" class="print-no-link">#马尔科夫链</a>
-      
     </div>
   
 </div>
@@ -396,8 +360,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>马尔科夫链</div>
-      <div>https://jiguang1134.github.io/2024/05/11/马尔科夫链/</div>
+      <div>蒙特卡洛采样回溯计算V值</div>
+      <div>https://jiguang1134.github.io/2024/05/11/蒙特卡洛采样回溯计算V值/</div>
     </div>
     <div class="license-meta">
       
@@ -441,18 +405,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/" title="蒙特卡洛采样回溯计算V值">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">蒙特卡洛采样回溯计算V值</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/11/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/" title="强化学习基础">
-                        <span class="hidden-mobile">强化学习基础</span>
+                      <a href="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/" title="马尔科夫链">
+                        <span class="hidden-mobile">马尔科夫链</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
