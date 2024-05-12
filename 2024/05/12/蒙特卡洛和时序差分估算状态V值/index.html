@@ -18,25 +18,24 @@
   
     <meta name="description" content="b站强化学习教程的学习记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="蒙特卡洛采样回溯计算V值">
-<meta property="og:url" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/index.html">
+<meta property="og:title" content="蒙特卡洛和时序差分估算状态V值">
+<meta property="og:url" content="https://jiguang1134.github.io/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/index.html">
 <meta property="og:site_name" content="极光">
 <meta property="og:description" content="b站强化学习教程的学习记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF2.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF3.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF4.png">
-<meta property="article:published_time" content="2024-05-11T13:44:06.000Z">
-<meta property="article:modified_time" content="2024-05-12T08:51:31.371Z">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E5%9B%BE1.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E5%9B%BE2.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E5%9B%BE3.png">
+<meta property="article:published_time" content="2024-05-12T10:01:07.000Z">
+<meta property="article:modified_time" content="2024-05-12T14:09:19.952Z">
 <meta property="article:author" content="极光">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png">
+<meta name="twitter:image" content="https://jiguang1134.github.io/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E5%9B%BE1.png">
   
   
   
-  <title>蒙特卡洛采样回溯计算V值 - 极光</title>
+  <title>蒙特卡洛和时序差分估算状态V值 - 极光</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="蒙特卡洛采样回溯计算V值"></span>
+            <span id="subtitle" data-typed-text="蒙特卡洛和时序差分估算状态V值"></span>
           
         </div>
 
@@ -225,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-11 21:44" pubdate>
-          2024年5月11日 晚上
+        <time datetime="2024-05-12 18:01" pubdate>
+          2024年5月12日 晚上
         </time>
       </span>
     
@@ -237,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          626 字
+          482 字
         
       </span>
     
@@ -248,7 +247,7 @@
         
         
         
-          6 分钟
+          5 分钟
         
       </span>
     
@@ -285,36 +284,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">蒙特卡洛采样回溯计算V值</h1>
+            <h1 id="seo-header">蒙特卡洛和时序差分估算状态V值</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Monte-Carlo-Sampling-1947"><a href="#Monte-Carlo-Sampling-1947" class="headerlink" title="Monte Carlo Sampling (1947)"></a>Monte Carlo Sampling (1947)</h1><ol>
-<li>我们把智能体放到环境的任意状态</li>
-<li>从这个状态开始按照策略进行选择动作，并进入新的状态。</li>
-<li>重复步骤 2，直到最终状态</li>
-<li>我们从最终状态开始向前回溯:计算每个状态的 G 值。</li>
-<li>重复 1-4 多次，然后平均每个状态的 G 值，这就是我们需要求的 V 值。<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯"></li>
-</ol>
-<p>第一步，我们根据策略往前走，一直走到最后，期间我们什么都不用算，还需要记录每个状态转移，我们获得多少奖励r即可。</p>
-<p>第二步，我们从终点往前走，一遍走一遍计算 G 值。G 值等于上一个状态的 G 值(记作G’),乘以一定的折扣(gamma),再加上r。  </p>
-<blockquote>
-<p><strong>折扣率</strong> 在强化学习中，有某些参数是人为主观制定不能推导，但在实际应用中却能解决问题，所以我们称这些参数为超参数，而折扣率就是一个超参数。与金融产品说的贴现率是类似的。我们计算价值，目的就是把未来很多步奖励，折算到当前节点。但未来n步的奖励的 10 点奖励，与当前的 10 点奖励是否完全等价呢?未必。所以我们人为地给未来的奖励一定的折扣，例如:0.9,0.8，然后在计算到当前的价值。  </p>
-</blockquote>
-<p>所以G值的意义在于，在一次游戏中，某个状态到最终状态的奖励总和(简单理解时科研忽略折扣值)  </p>
-<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF2.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯2">  
+                <h1 id="Monte-Carlo-估算状态V值"><a href="#Monte-Carlo-估算状态V值" class="headerlink" title="Monte Carlo 估算状态V值"></a>Monte Carlo 估算状态V值</h1><p>为了方便，我们对平均进行一些优化。于是获得用 MC估算V值的公式:  </p>
+<p>首先明确增量更新法，它有点像梯度下降法，GBDT残差不就是负梯度  </p>
+<ul>
+<li>新平均&#x3D;旧日平均 + 步长*(新加入元素-旧日平均)</li>
+</ul>
+<p>那么每次更新我们就能写出如下式子:  </p>
+<img src="/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E5%9B%BE1.png" srcset="/img/loading.gif" lazyload class="" title="时序差分图1">  
 
-<p>当我们进行多次试验后，我们有可能会经过某个状态多次，通过回，也会有多个G.重复我们刚才说的，每一个G值，就是每次到最终状态获得的奖励总和。而V值，某个状态下，我们通过影分身到达最终状态，所有影分身获得的奖励的平均值。  </p>
-<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF3.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯3">  
-
+<h1 id="TD估算状态V值-1959"><a href="#TD估算状态V值-1959" class="headerlink" title="TD估算状态V值 (1959)"></a>TD估算状态V值 (1959)</h1><p>时序差分(temporal-difference )方法又称 TD 方法是强化学习中应用最为广泛的一种学习方法。  </p>
+<p>TD 算法对蒙地卡罗(MC)进行了改进  </p>
 <ol>
-<li>G 的意义:在某个路径上，状态S到最终状态的总收获。</li>
-<li>V和 G 的关系:V 是 G的平均数。</li>
+<li>和蒙地卡罗(MC)不同:TD 算法只需要走 N 步。就可以开始回溯更新。  </li>
+<li>和蒙地卡罗(MC)一样:需要先走 N步，每经过一个状态，把奖励记录下来。然后开始回溯。</li>
+<li>那么，状态的 V 值怎么算呢?其实和蒙地卡罗一样，我们就假设N步之后，就到达了最终状态了。-假设“最终状态”上我们之前没有走过，所以这个状态上的纸是空白的。这个时候我们就当这个状态为 0.-假设“最终状态”上我们已经走过了,这个状态的V值就是当前值。然后我们开始回溯。</li>
 </ol>
-<p>到这里要注意一点:V和策略是相关的，那么在这里怎么体现呢?  </p>
-<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF4.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯4">  
-<p>蒙地卡罗有一个比较大的缺点，就是每一次游戏，都需要先从头走到尾，再进行回溯更新。如果最终状态很难达到，可能每一次都要转很久很久才能更新一次 G 值。</p>
+<p>我们可以把 TD 看成是这样一种情况:  </p>
+<img src="/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E5%9B%BE2.png" srcset="/img/loading.gif" lazyload class="" title="时序差分图2">  
+<p>经过 1步，到 B状态。我们什么都不管就当B状态是最终状态了。  </p>
+<p>我们从 A 状态，但 B状态本身就带有一定的价值，也就是V值。其意义就是从 B状态到最终状态的总价值期望。我们假设 B状态的V值是对的，那么，通过回溯计算，我们就能知道 A 状态的更新目标了。  </p>
+<p>于是获得用 TD 估算 V值的公式：  </p>
+<p>在 MC，G 是更新目标，而在 TD，我们只不过把更新目标从 G，改成r+gamma*V</p>
+<img src="/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E5%9B%BE3.png" srcset="/img/loading.gif" lazyload class="" title="时序差分图3">  
+
+
+
 
                 
               </div>
@@ -360,8 +359,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>蒙特卡洛采样回溯计算V值</div>
-      <div>https://jiguang1134.github.io/2024/05/11/蒙特卡洛采样回溯计算V值/</div>
+      <div>蒙特卡洛和时序差分估算状态V值</div>
+      <div>https://jiguang1134.github.io/2024/05/12/蒙特卡洛和时序差分估算状态V值/</div>
     </div>
     <div class="license-meta">
       
@@ -373,7 +372,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月11日</div>
+          <div>2024年5月12日</div>
         </div>
       
       
@@ -405,9 +404,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/" title="蒙特卡洛和时序差分估算状态V值">
+                      <a href="/2024/05/12/SARSA%E7%AE%97%E6%B3%95%E5%92%8CQ-learning%E7%AE%97%E6%B3%95/" title="SARSA算法和Q-learning算法">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">蒙特卡洛和时序差分估算状态V值</span>
+                        <span class="hidden-mobile">SARSA算法和Q-learning算法</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -415,8 +414,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/" title="马尔科夫链">
-                        <span class="hidden-mobile">马尔科夫链</span>
+                      <a href="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/" title="蒙特卡洛采样回溯计算V值">
+                        <span class="hidden-mobile">蒙特卡洛采样回溯计算V值</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

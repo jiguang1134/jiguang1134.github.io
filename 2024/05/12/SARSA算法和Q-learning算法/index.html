@@ -18,25 +18,24 @@
   
     <meta name="description" content="b站强化学习教程的学习记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="蒙特卡洛采样回溯计算V值">
-<meta property="og:url" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/index.html">
+<meta property="og:title" content="SARSA算法和Q-learning算法">
+<meta property="og:url" content="https://jiguang1134.github.io/2024/05/12/SARSA%E7%AE%97%E6%B3%95%E5%92%8CQ-learning%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="极光">
 <meta property="og:description" content="b站强化学习教程的学习记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF2.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF3.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF4.png">
-<meta property="article:published_time" content="2024-05-11T13:44:06.000Z">
-<meta property="article:modified_time" content="2024-05-12T08:51:31.371Z">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/12/SARSA%E7%AE%97%E6%B3%95%E5%92%8CQ-learning%E7%AE%97%E6%B3%95/SARSA.png">
+<meta property="article:published_time" content="2024-05-12T14:10:51.000Z">
+<meta property="article:modified_time" content="2024-05-12T14:23:44.019Z">
 <meta property="article:author" content="极光">
 <meta property="article:tag" content="强化学习">
+<meta property="article:tag" content="SARSA">
+<meta property="article:tag" content="Q-learning">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://jiguang1134.github.io/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png">
+<meta name="twitter:image" content="https://jiguang1134.github.io/2024/05/12/SARSA%E7%AE%97%E6%B3%95%E5%92%8CQ-learning%E7%AE%97%E6%B3%95/SARSA.png">
   
   
   
-  <title>蒙特卡洛采样回溯计算V值 - 极光</title>
+  <title>SARSA算法和Q-learning算法 - 极光</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="蒙特卡洛采样回溯计算V值"></span>
+            <span id="subtitle" data-typed-text="SARSA算法和Q-learning算法"></span>
           
         </div>
 
@@ -225,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-11 21:44" pubdate>
-          2024年5月11日 晚上
+        <time datetime="2024-05-12 22:10" pubdate>
+          2024年5月12日 晚上
         </time>
       </span>
     
@@ -237,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          626 字
+          243 字
         
       </span>
     
@@ -248,7 +247,7 @@
         
         
         
-          6 分钟
+          3 分钟
         
       </span>
     
@@ -285,36 +284,20 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">蒙特卡洛采样回溯计算V值</h1>
+            <h1 id="seo-header">SARSA算法和Q-learning算法</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Monte-Carlo-Sampling-1947"><a href="#Monte-Carlo-Sampling-1947" class="headerlink" title="Monte Carlo Sampling (1947)"></a>Monte Carlo Sampling (1947)</h1><ol>
-<li>我们把智能体放到环境的任意状态</li>
-<li>从这个状态开始按照策略进行选择动作，并进入新的状态。</li>
-<li>重复步骤 2，直到最终状态</li>
-<li>我们从最终状态开始向前回溯:计算每个状态的 G 值。</li>
-<li>重复 1-4 多次，然后平均每个状态的 G 值，这就是我们需要求的 V 值。<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯"></li>
-</ol>
-<p>第一步，我们根据策略往前走，一直走到最后，期间我们什么都不用算，还需要记录每个状态转移，我们获得多少奖励r即可。</p>
-<p>第二步，我们从终点往前走，一遍走一遍计算 G 值。G 值等于上一个状态的 G 值(记作G’),乘以一定的折扣(gamma),再加上r。  </p>
-<blockquote>
-<p><strong>折扣率</strong> 在强化学习中，有某些参数是人为主观制定不能推导，但在实际应用中却能解决问题，所以我们称这些参数为超参数，而折扣率就是一个超参数。与金融产品说的贴现率是类似的。我们计算价值，目的就是把未来很多步奖励，折算到当前节点。但未来n步的奖励的 10 点奖励，与当前的 10 点奖励是否完全等价呢?未必。所以我们人为地给未来的奖励一定的折扣，例如:0.9,0.8，然后在计算到当前的价值。  </p>
-</blockquote>
-<p>所以G值的意义在于，在一次游戏中，某个状态到最终状态的奖励总和(简单理解时科研忽略折扣值)  </p>
-<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF2.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯2">  
+                <h1 id="SARSA-1994"><a href="#SARSA-1994" class="headerlink" title="SARSA(1994)"></a>SARSA(1994)</h1><p>之前学习了用 TD 估算 V值。但其实我们用 TD 预估 Q 值，其实会来得更方便，因为我们要的就是智能体选择动作嘛。智能体是不是可以看成是个Q function? Q function的输入是 St和 At，这样在t时刻 St状态下，选择最好的 action At，不就能指导智能体了吗?  </p>
+<p>SARSA 的想法是，用同一个策略下产生的动作A的 Q值替代 V(St+1)。  </p>
+<img src="/2024/05/12/SARSA%E7%AE%97%E6%B3%95%E5%92%8CQ-learning%E7%AE%97%E6%B3%95/SARSA.png" srcset="/img/loading.gif" lazyload class="" title="SARSA">  
 
-<p>当我们进行多次试验后，我们有可能会经过某个状态多次，通过回，也会有多个G.重复我们刚才说的，每一个G值，就是每次到最终状态获得的奖励总和。而V值，某个状态下，我们通过影分身到达最终状态，所有影分身获得的奖励的平均值。  </p>
-<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF3.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯3">  
+<p>TD 估算 V 值对比一下，几乎是一模一样的，只是把V换成 Q。  </p>
+<h1 id="Q-learning-1989"><a href="#Q-learning-1989" class="headerlink" title="Q-learning(1989)"></a>Q-learning(1989)</h1><p>Q learning 的想法其实也很直观:既然我们的目标是选取最大收益，所以，我们肯定会选择一个能够获得最大 Q值的动作。也就是说，在实际选择中，我不可能选择不是最大Q 值的动作。所以，我们应该用所有动作的 Q 值的最大值替代 V(St+1)。  </p>
+  
 
-<ol>
-<li>G 的意义:在某个路径上，状态S到最终状态的总收获。</li>
-<li>V和 G 的关系:V 是 G的平均数。</li>
-</ol>
-<p>到这里要注意一点:V和策略是相关的，那么在这里怎么体现呢?  </p>
-<img src="/2024/05/11/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF%E8%AE%A1%E7%AE%97V%E5%80%BC/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E5%9B%9E%E6%BA%AF4.png" srcset="/img/loading.gif" lazyload class="" title="蒙特卡洛采样回溯4">  
-<p>蒙地卡罗有一个比较大的缺点，就是每一次游戏，都需要先从头走到尾，再进行回溯更新。如果最终状态很难达到，可能每一次都要转很久很久才能更新一次 G 值。</p>
+<p>Q learning 公式和 SARSA 相比，就差一个 max。</p>
 
                 
               </div>
@@ -350,6 +333,10 @@
       
         <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
       
+        <a href="/tags/SARSA/" class="print-no-link">#SARSA</a>
+      
+        <a href="/tags/Q-learning/" class="print-no-link">#Q-learning</a>
+      
     </div>
   
 </div>
@@ -360,8 +347,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>蒙特卡洛采样回溯计算V值</div>
-      <div>https://jiguang1134.github.io/2024/05/11/蒙特卡洛采样回溯计算V值/</div>
+      <div>SARSA算法和Q-learning算法</div>
+      <div>https://jiguang1134.github.io/2024/05/12/SARSA算法和Q-learning算法/</div>
     </div>
     <div class="license-meta">
       
@@ -373,7 +360,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月11日</div>
+          <div>2024年5月12日</div>
         </div>
       
       
@@ -405,18 +392,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/" title="蒙特卡洛和时序差分估算状态V值">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">蒙特卡洛和时序差分估算状态V值</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/11/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/" title="马尔科夫链">
-                        <span class="hidden-mobile">马尔科夫链</span>
+                      <a href="/2024/05/12/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E5%92%8C%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E4%BC%B0%E7%AE%97%E7%8A%B6%E6%80%81V%E5%80%BC/" title="蒙特卡洛和时序差分估算状态V值">
+                        <span class="hidden-mobile">蒙特卡洛和时序差分估算状态V值</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
