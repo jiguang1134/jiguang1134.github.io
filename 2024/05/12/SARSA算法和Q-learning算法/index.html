@@ -24,8 +24,9 @@
 <meta property="og:description" content="b站强化学习教程的学习记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jiguang1134.github.io/2024/05/12/SARSA%E7%AE%97%E6%B3%95%E5%92%8CQ-learning%E7%AE%97%E6%B3%95/SARSA.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/05/12/SARSA%E7%AE%97%E6%B3%95%E5%92%8CQ-learning%E7%AE%97%E6%B3%95/Qlearning.png">
 <meta property="article:published_time" content="2024-05-12T14:10:51.000Z">
-<meta property="article:modified_time" content="2024-05-12T14:23:44.019Z">
+<meta property="article:modified_time" content="2024-05-12T14:28:27.245Z">
 <meta property="article:author" content="极光">
 <meta property="article:tag" content="强化学习">
 <meta property="article:tag" content="SARSA">
@@ -295,7 +296,7 @@
 
 <p>TD 估算 V 值对比一下，几乎是一模一样的，只是把V换成 Q。  </p>
 <h1 id="Q-learning-1989"><a href="#Q-learning-1989" class="headerlink" title="Q-learning(1989)"></a>Q-learning(1989)</h1><p>Q learning 的想法其实也很直观:既然我们的目标是选取最大收益，所以，我们肯定会选择一个能够获得最大 Q值的动作。也就是说，在实际选择中，我不可能选择不是最大Q 值的动作。所以，我们应该用所有动作的 Q 值的最大值替代 V(St+1)。  </p>
-  
+<img src="/2024/05/12/SARSA%E7%AE%97%E6%B3%95%E5%92%8CQ-learning%E7%AE%97%E6%B3%95/Qlearning.png" srcset="/img/loading.gif" lazyload class="" title="Qlearning">  
 
 <p>Q learning 公式和 SARSA 相比，就差一个 max。</p>
 
