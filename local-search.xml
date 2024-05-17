@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>DQN</title>
+    <link href="/2024/05/17/DQN/"/>
+    <url>/2024/05/17/DQN/</url>
+    
+    <content type="html"><![CDATA[<h1 id="DQN"><a href="#DQN" class="headerlink" title="DQN"></a>DQN</h1><p>在 Q learning 中，我们有一个 Q table，记录着在每一个状态下，各个动作的 Q值。  </p><p>Q table 的作用是当我们输入状态 S，我们通过査表返回能够获得最大 Q 值的动作 A。也就是我们需要找一个 S-A 的对应关系。  </p><p>这种方式很适合格子游戏。因为格子游戏中的每一个格子就是一个状态，但在现实生活中，很多状态并不是离散而是连续的。  </p><p>例如在 GYM 中经典的 Cart Pole 游戏，杆子的角度是连续而不是离散的。在 Atari 游戏中，状态也是连续的。遇到这些情况，Q table 就没有办法解决。  </p><p>我们刚才说了 Q table 的作用就是找一个 S-A的对应关系。所以我们就可以用一个函数F表示，我们有 F(S)&#x3D;A。这样我们就可以不用查表了，而且还有个好处，函数允许连续状态的表示。这时候，我们深度神经网络就可以派上用场了。  </p><p>Deep network + Q learning &#x3D; DQN  </p><p>其实 Q learning 和 DQN 并没有根本的区别。只是 DQN 用神经网络，也就是一个函数替代了原来 Q table 而已。  </p><p>提到神经网络同学们并不陌生，NN 它是需要有 target 目标的。其实就和 Qlearning一样。还记得吗?在 Q learning，我们用下一状态 St+1 的最大 Q值替代 St+1的V值。V(St+1)加上状态转移产生的奖励 R。就是 Q(S,a)的更新目标。  </p><img src="/2024/05/17/DQN/DQN1.png" class="" title="DQN1">   <p>区别仅仅是这里不是更新Q table，而是更新Q网络。</p><img src="/2024/05/17/DQN/DQN2.png" class="" title="DQN2">   <ol><li>执行 A，往前一步，到达 St+1;</li><li>把 St+1 输入 Q 网络，计算 St+1 下所有动作的 Q值;</li><li>获得最大的 Q 值加上奖励 R作为更新目标;</li><li>计算损失- Q(S,A)相当于有监督学习中的需要拟合的几率 logits，就是z</li><li>maxQ(St+1)+ R 相当于有监督学习中的labels，y true</li><li>用 mse 函数，得出两者的 loss</li><li>用 loss 更新 Q 网络。</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>强化学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>强化学习</tag>
+      
+      <tag>DQN</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Q-learning算法实例1</title>
     <link href="/2024/05/13/Q-learning%E7%AE%97%E6%B3%95%E5%AE%9E%E4%BE%8B1/"/>
     <url>/2024/05/13/Q-learning%E7%AE%97%E6%B3%95%E5%AE%9E%E4%BE%8B1/</url>
