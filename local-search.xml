@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Actor-Critic</title>
+    <link href="/2024/06/25/Actor-Critic/"/>
+    <url>/2024/06/25/Actor-Critic/</url>
+    
+    <content type="html"><![CDATA[<h2 id="回顾Q-learning"><a href="#回顾Q-learning" class="headerlink" title="回顾Q_learning"></a>回顾Q_learning</h2><p><strong>本质:</strong> 估计当前状态s采取某个动作a后会获得的未来奖励的期望，即 Q(s,a)。  </p><p>将估计 Q(s,a)的过程看成一个<strong>评论家(Critic)</strong> ，它会对我们在当前状态s下，采取动作a的决策作出评价评价的结果就是 Q(s,a)的值。</p><img src="/2024/06/25/Actor-Critic/q_learning1.png" class="" title="q_learning1">  <h2 id="回顾Policy-Gradient"><a href="#回顾Policy-Gradient" class="headerlink" title="回顾Policy Gradient"></a>回顾Policy Gradient</h2><p><strong>核心思想:</strong> 根据当前状态，直接算出:  </p><ul><li>下一个动作是什么(确定性策略)</li><li>下一个动作的概率分布是什么(非确定性策略)</li></ul><img src="/2024/06/25/Actor-Critic/policy_gradient.png" class="" title="policy_gradient">  <h1 id="演员-评论家-Actor-Critic-算法"><a href="#演员-评论家-Actor-Critic-算法" class="headerlink" title="演员-评论家(Actor-Critic)算法"></a>演员-评论家(Actor-Critic)算法</h1><p><strong>Actor</strong> 就是 Policy Gradient，能够在<strong>连续动作空间</strong>中选择合适的动作  </p><ul><li>Policy Gradient 具有<strong>较高的采样方差</strong></li><li>Policy Gradient 是回合更新，学习效率较低</li></ul><p><strong>Critic</strong> 就是 Q-Learning(如深度 Q 网络)，能<strong>估计期望奖励</strong>，能进行单步更新  </p><ul><li>Q-Learning 等基于价值的算法只能用于离散动作空间</li></ul><p><strong>优势互补:</strong> Actor-Critic 结合了基于价值(Q-Learning)和基于策略(Policy Gradient)的两类强化学习算法</p><h3 id="策略梯度"><a href="#策略梯度" class="headerlink" title="策略梯度"></a>策略梯度</h3><img src="/2024/06/25/Actor-Critic/AC1.png" class="" title="AC1"> <p>用价值函数表示基线b，于是Actor Critic的策略梯度变为  </p><img src="/2024/06/25/Actor-Critic/AC2.png" class="" title="AC2"> <p>有三个网络需要学习，增大了估计不准的风险</p><p>利用<strong>贝尔曼方程</strong>建立 Q 和 V 的联系，省去一个网络。</p><p>贝尔曼方程是强化学习的基础和核心，用于求解马尔可夫决策过程（MDP）问题，也就是找到最优策略及其对应的价值函数，并建立起<strong>价值函数之间的关联</strong>。</p><h3 id="贝尔曼方程（Bellman-Equation）"><a href="#贝尔曼方程（Bellman-Equation）" class="headerlink" title="贝尔曼方程（Bellman Equation）"></a>贝尔曼方程（Bellman Equation）</h3><p>动作和状态价值函数的关系  </p><img src="/2024/06/25/Actor-Critic/AC3.png" class="" title="AC3"> <p>r”是状态s采取动作 a转移到新状态 s’的立即回报;<br>P”是状态s转移到新状态 s’的转移概率.</p><p>利用贝尔曼方程建立 Q 和 V 的联系，省去一个网络  </p><p>实践发现，忽略期望E也能取得很好的效果，且能建立 Q 函数和价值函数 V 的直接联系</p><p>原策略梯度：  </p><img src="/2024/06/25/Actor-Critic/AC4.png" class="" title="AC4">  <p>新策略梯度：  </p><img src="/2024/06/25/Actor-Critic/AC5.png" class="" title="AC5">  <h1 id="优势演员-评论家（Advantage-Actor-Critic，A2C）算法"><a href="#优势演员-评论家（Advantage-Actor-Critic，A2C）算法" class="headerlink" title="优势演员-评论家（Advantage Actor-Critic，A2C）算法"></a>优势演员-评论家（Advantage Actor-Critic，A2C）算法</h1><img src="/2024/06/25/Actor-Critic/A2C1.png" class="" title="A2C1">  <img src="/2024/06/25/Actor-Critic/A2C2.png" class="" title="A2C2">  <p>技巧 1-共享权重：Actor 和 Critic 网络有相同的输入，可以共享同一个特征提取网络。  </p><ul><li>降低计算开销、提高算法收敛性</li></ul><img src="/2024/06/25/Actor-Critic/A2C3.png" class="" title="A2C3">  <p>技巧 2-探索与利用：约束动作的概率分布，使得分布的熵不要太小，以尝试不同的动作，避免陷入局部极优。</p><img src="/2024/06/25/Actor-Critic/A2C4.png" class="" title="A2C4">  ]]></content>
+    
+    
+    <categories>
+      
+      <category>强化学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>强化学习</tag>
+      
+      <tag>A2C</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>DQN</title>
     <link href="/2024/05/17/DQN/"/>
     <url>/2024/05/17/DQN/</url>
@@ -101,9 +128,9 @@
       
       <tag>强化学习</tag>
       
-      <tag>SARSA</tag>
-      
       <tag>Q-learning</tag>
+      
+      <tag>SARSA</tag>
       
     </tags>
     
