@@ -16,35 +16,27 @@
   <meta name="author" content="极光">
   <meta name="keywords" content="">
   
-    <meta name="description" content="强化学习的学习记录">
+    <meta name="description" content="b站视频“【零基础学习强化学习算法：ppo】 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1iz421h7gb&#x2F;?share_source&#x3D;copy_web&amp;vd_source&#x3D;cffefa79560b6e2609e5b08e585dd1d9”的学习记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Actor-Critic">
-<meta property="og:url" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/index.html">
+<meta property="og:title" content="强化学习PPO">
+<meta property="og:url" content="https://jiguang1134.github.io/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/index.html">
 <meta property="og:site_name" content="极光">
-<meta property="og:description" content="强化学习的学习记录">
+<meta property="og:description" content="b站视频“【零基础学习强化学习算法：ppo】 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1iz421h7gb&#x2F;?share_source&#x3D;copy_web&amp;vd_source&#x3D;cffefa79560b6e2609e5b08e585dd1d9”的学习记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/q_learning1.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/policy_gradient.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/AC1.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/AC2.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/AC3.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/AC4.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/AC5.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/A2C1.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/A2C2.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/A2C3.png">
-<meta property="og:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/A2C4.png">
-<meta property="article:published_time" content="2024-06-25T11:53:19.000Z">
-<meta property="article:modified_time" content="2024-06-25T12:44:25.727Z">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%8E%9F%E7%90%86%E5%9B%BE.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/pg1.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/pg2.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/pg3.png">
+<meta property="article:published_time" content="2024-09-04T12:29:06.000Z">
+<meta property="article:modified_time" content="2024-09-04T13:58:52.900Z">
 <meta property="article:author" content="极光">
 <meta property="article:tag" content="强化学习">
-<meta property="article:tag" content="A2C">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://jiguang1134.github.io/2024/06/25/Actor-Critic/q_learning1.png">
+<meta name="twitter:image" content="https://jiguang1134.github.io/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%8E%9F%E7%90%86%E5%9B%BE.png">
   
   
   
-  <title>Actor-Critic - 极光</title>
+  <title>强化学习PPO - 极光</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -222,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Actor-Critic"></span>
+            <span id="subtitle" data-typed-text="强化学习PPO"></span>
           
         </div>
 
@@ -233,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-25 19:53" pubdate>
-          2024年6月25日 晚上
+        <time datetime="2024-09-04 20:29" pubdate>
+          2024年9月4日 晚上
         </time>
       </span>
     
@@ -245,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          601 字
+          1.2k 字
         
       </span>
     
@@ -256,7 +248,7 @@
         
         
         
-          6 分钟
+          11 分钟
         
       </span>
     
@@ -293,72 +285,44 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Actor-Critic</h1>
+            <h1 id="seo-header">强化学习PPO</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="回顾Q-learning"><a href="#回顾Q-learning" class="headerlink" title="回顾Q_learning"></a>回顾Q_learning</h2><p><strong>本质:</strong> 估计当前状态s采取某个动作a后会获得的未来奖励的期望，即 Q(s,a)。  </p>
-<p>将估计 Q(s,a)的过程看成一个<strong>评论家(Critic)</strong> ，它会对我们在当前状态s下，采取动作a的决策作出评价评价的结果就是 Q(s,a)的值。</p>
-<img src="/2024/06/25/Actor-Critic/q_learning1.png" srcset="/img/loading.gif" lazyload class="" title="q_learning1">  
+                <h2 id="强化学习介绍"><a href="#强化学习介绍" class="headerlink" title="强化学习介绍"></a>强化学习介绍</h2><img src="/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%8E%9F%E7%90%86%E5%9B%BE.png" srcset="/img/loading.gif" lazyload class="" title="强化学习原理">   
 
-<h2 id="回顾Policy-Gradient"><a href="#回顾Policy-Gradient" class="headerlink" title="回顾Policy Gradient"></a>回顾Policy Gradient</h2><p><strong>核心思想:</strong> 根据当前状态，直接算出:  </p>
-<ul>
-<li>下一个动作是什么(确定性策略)</li>
-<li>下一个动作的概率分布是什么(非确定性策略)</li>
-</ul>
-<img src="/2024/06/25/Actor-Critic/policy_gradient.png" srcset="/img/loading.gif" lazyload class="" title="policy_gradient">  
+<p><strong>Action Space：</strong> 可选择的动作，比如${\mathrm{left,<del>up,</del>right}}$</p>
+<p><strong>Policy：</strong> 策略函数，输入State，输出Action的概率分布。一般用π表示</p>
+<p>$$\pi(left|s_t)&#x3D;0.1$$<br>$$\pi(up|s_t)&#x3D;0.2$$<br>$$\pi(right|s_t)&#x3D;0.7$$</p>
+<p><strong>Trajectory :</strong> 轨迹，用${\tau}$表示，一连串状态和动作的序列。Episode,Rollout。${\mathrm{s_0,<del>a_0,</del>s_1,~a_1,…}}$<br>$$s_{t+1}&#x3D;f(s_t,a_t)\text{ 确定}$$</p>
+<p>$$s_{t+1}&#x3D;P(\cdot|s_t,a_t)\text{ 随机}$$</p>
+<p><strong>Return：</strong> 回报，从当前时间点到游戏结束的Reward的累积和。</p>
+<p><strong>期望：</strong> 每个可能结果的概率与其结果值的乘积之和</p>
+<p>$$\mathrm{E}(\mathrm{x})<em>{x\sim p(x)}&#x3D;\sum</em>{x}x*p(x)\approx\frac{1}{n}\sum_{i&#x3D;1}^{n}x\quad x\sim p(x)$$</p>
+<p><strong>强化学习的目标：</strong> 训练一个Policy神经网络π，在所有状态S下，给出相应的Action，得到Return的期望最大。  </p>
+<p>也可以说是：训练一个Policy神经网络π，在所有的Trajectory中，得到Return的期望最大。</p>
+<p>下面用数学公式表达这个目标<br>$$E(R(\tau))<em>{\tau\sim P_\theta(\tau)}&#x3D;\sum</em>{\tau}R(\tau)P_\theta(\tau)$$</p>
+<p>${\tau}$服从分布$P_\theta(\tau)$，$P_\theta(\tau)$是我们要训练的策略网络的参数，我们期望在伸进网络参数$\theta$的作用下，${\tau}$获得的Return的期望尽可能的大。  </p>
+<p>按照期望的定义，它等于所有的${\tau}$获得的Return乘以${\tau}$的概率的累加。可以用梯度上升的方法使得这个期望尽可能的大。  </p>
+<h1 id="策略梯度法-Policy-gradient"><a href="#策略梯度法-Policy-gradient" class="headerlink" title="策略梯度法 Policy gradient"></a>策略梯度法 Policy gradient</h1><p>先计算梯度，我们智能改变神经网络的参数，而不能改变环境给的reward，所以我们对$\theta$求梯度，并且根据log函数求导公式$\nabla\log f(x)&#x3D;\frac{\nabla f(x)}{f(x)}$可以化简</p>
+<p>$$\begin{aligned}<br>\nabla E(R(\tau))<em>{\tau\sim P</em>{\theta}(\tau)}&amp; &#x3D;\nabla\sum_{\tau}R(\tau)P_{\theta}(\tau) \<br>&amp;&#x3D;\sum_{\tau}R(\tau)\nabla P_{\theta}(\tau) \<br>&amp;&#x3D;\sum_{\tau}R(\tau)\nabla P_{\theta}(\tau)\frac{P_{\theta}(\tau)}{P_{\theta}(\tau)} \<br>&amp;&#x3D;\sum_{\tau}P_{\theta}(\tau)R(\tau)\frac{\nabla P_{\theta}(\tau)}{P_{\theta}(\tau)} \<br>&amp;&#x3D;\sum_\tau P_\theta(\tau)R(\tau)\frac{\nabla P_\theta(\tau)}{P_\theta(\tau)} \<br>&amp;\approx\frac1N\sum_{n&#x3D;1}^NR(\tau^n)\frac{\nabla P_\theta(\tau^n)}{P_\theta(\tau^n)} \<br>&amp;&#x3D;\frac{1}{N}\sum_{n&#x3D;1}^{N}R(\tau^{n})\nabla\log P_{\theta}(\tau^{n})<br>\end{aligned}$$</p>
+<p>这里我们认为，下一个状态是完全由当前状态和当前动作决定的，那么，一个${\tau}$的概率$P_{\theta}(\tau^{n})$就是在这个${\tau}$里所有的state，和这些state下给出的action概率的连乘，log的连乘等于log的连加，整理后表达式如下：</p>
+<p>$$\begin{aligned}<br>&amp;&#x3D;\frac{1}{N}\sum_{n&#x3D;1}^{N}R(\tau^{n})\nabla\log P_{\theta}(\tau^{n}) \<br>&amp;&#x3D;\frac{1}{N}\sum_{n&#x3D;1}^{N}R(\tau^{n})\nabla\log\prod_{t&#x3D;1}^{T_{n}}P_{\theta}(a_{n}^{t}|s_{n}^{t}) \<br>&amp;&#x3D;\frac1N\sum_{n&#x3D;1}^NR(\tau^n)\sum_{t&#x3D;1}^{T_n}\nabla\mathrm{log}P_\theta(a_n^t|s_n^t) \<br>&amp;&#x3D;\frac1N\sum_{n&#x3D;1}^N\sum_{t&#x3D;1}^{T_n}R(\tau^n)\nabla\mathrm{log}P_\theta(a_n^t|s_n^t)<br>\end{aligned}$$</p>
+<p>这个表达式的含义是对所有可能的${\tau}$期望最大的梯度，用这个梯度乘以学习率去更新神经网络的参数，这就是策略梯度Policy gradient算法  </p>
+<p>$$\frac1N\sum_{n&#x3D;1}^N\sum_{t&#x3D;1}^{T_n}R(\tau^n)\mathrm{log}P_\theta(a_n^t|s_n^t)$$</p>
+<p>我们去掉对梯度的求导，看整理后的表达式，也就是让这个表达式尽可能大的$\theta$，也就是我们要求的神经网络的参数。  </p>
+<p>这个表达式的意义也很直观，由两部分构成，第一部分是一个${\tau}$得到的return，第二部分是每一步根据当前的state做出action的概率，然后求对数。log底数为e，是单调递增的，也就是说，这个表达式的直观意义是，如果一个${\tau}$得到的return是大于0的，那么就增大这个${\tau}$下所有state下采取当前action的概率。</p>
+<h3 id="实际训练策略网络的方法"><a href="#实际训练策略网络的方法" class="headerlink" title="实际训练策略网络的方法"></a>实际训练策略网络的方法</h3><p>首先定义loss函数，在需要最大化的目标函数前面加上-，让优化器最小化它<br>$$\text{Loss&#x3D;}-\frac1N\sum_{n&#x3D;1}^N\sum_{t&#x3D;1}^{T_n}R(\tau^n)\mathrm{log}P_\theta(a_n^t|s_n^t)$$</p>
+<img src="/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/pg1.png" srcset="/img/loading.gif" lazyload class="" title="pg1">   
 
-<h1 id="演员-评论家-Actor-Critic-算法"><a href="#演员-评论家-Actor-Critic-算法" class="headerlink" title="演员-评论家(Actor-Critic)算法"></a>演员-评论家(Actor-Critic)算法</h1><p><strong>Actor</strong> 就是 Policy Gradient，能够在<strong>连续动作空间</strong>中选择合适的动作  </p>
-<ul>
-<li>Policy Gradient 具有<strong>较高的采样方差</strong></li>
-<li>Policy Gradient 是回合更新，学习效率较低</li>
-</ul>
-<p><strong>Critic</strong> 就是 Q-Learning(如深度 Q 网络)，能<strong>估计期望奖励</strong>，能进行单步更新  </p>
-<ul>
-<li>Q-Learning 等基于价值的算法只能用于离散动作空间</li>
-</ul>
-<p><strong>优势互补:</strong> Actor-Critic 结合了基于价值(Q-Learning)和基于策略(Policy Gradient)的两类强化学习算法</p>
-<h3 id="策略梯度"><a href="#策略梯度" class="headerlink" title="策略梯度"></a>策略梯度</h3><img src="/2024/06/25/Actor-Critic/AC1.png" srcset="/img/loading.gif" lazyload class="" title="AC1"> 
+<p>定义一个卷积神经网络，输入为state，经过卷积神经网络的处理，最后输出层有三个神经元，经过softmax层后代表三个动作的概率，这里的概率值就是$P_\theta(a_n^t|s_n^t)$</p>
+<img src="/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/pg2.png" srcset="/img/loading.gif" lazyload class="" title="pg2">   
 
-<p>用价值函数表示基线b，于是Actor Critic的策略梯度变为  </p>
-<img src="/2024/06/25/Actor-Critic/AC2.png" srcset="/img/loading.gif" lazyload class="" title="AC2"> 
+<p>然后让这个神经网络连续玩n场游戏，得到n个${\tau}$和n个最后的return值，这里return就是loss公式里的$R(\tau^n)$。注意，我们对每一步的action都是按照概率进行采样的，不是选取最大值的，这样我们就得到loss公式中的所有值了。可以进行一个batch训练来更新Policy神经网络。  </p>
+<img src="/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/pg3.png" srcset="/img/loading.gif" lazyload class="" title="pg3">   
 
-
-<p>有三个网络需要学习，增大了估计不准的风险</p>
-<p>利用<strong>贝尔曼方程</strong>建立 Q 和 V 的联系，省去一个网络。</p>
-<p>贝尔曼方程是强化学习的基础和核心，用于求解马尔可夫决策过程（MDP）问题，也就是找到最优策略及其对应的价值函数，并建立起<strong>价值函数之间的关联</strong>。</p>
-<h3 id="贝尔曼方程（Bellman-Equation）"><a href="#贝尔曼方程（Bellman-Equation）" class="headerlink" title="贝尔曼方程（Bellman Equation）"></a>贝尔曼方程（Bellman Equation）</h3><p>动作和状态价值函数的关系  </p>
-<img src="/2024/06/25/Actor-Critic/AC3.png" srcset="/img/loading.gif" lazyload class="" title="AC3"> 
-
-<p>r”是状态s采取动作 a转移到新状态 s’的立即回报;<br>P”是状态s转移到新状态 s’的转移概率.</p>
-<p>利用贝尔曼方程建立 Q 和 V 的联系，省去一个网络  </p>
-<p>实践发现，忽略期望E也能取得很好的效果，且能建立 Q 函数和价值函数 V 的直接联系</p>
-<p>原策略梯度：  </p>
-<img src="/2024/06/25/Actor-Critic/AC4.png" srcset="/img/loading.gif" lazyload class="" title="AC4">  
-
-<p>新策略梯度：  </p>
-<img src="/2024/06/25/Actor-Critic/AC5.png" srcset="/img/loading.gif" lazyload class="" title="AC5">  
-
-<h1 id="优势演员-评论家（Advantage-Actor-Critic，A2C）算法"><a href="#优势演员-评论家（Advantage-Actor-Critic，A2C）算法" class="headerlink" title="优势演员-评论家（Advantage Actor-Critic，A2C）算法"></a>优势演员-评论家（Advantage Actor-Critic，A2C）算法</h1><img src="/2024/06/25/Actor-Critic/A2C1.png" srcset="/img/loading.gif" lazyload class="" title="A2C1">  
-
-<img src="/2024/06/25/Actor-Critic/A2C2.png" srcset="/img/loading.gif" lazyload class="" title="A2C2">  
-
-
-<p>技巧 1-共享权重：Actor 和 Critic 网络有相同的输入，可以共享同一个特征提取网络。  </p>
-<ul>
-<li>降低计算开销、提高算法收敛性</li>
-</ul>
-<img src="/2024/06/25/Actor-Critic/A2C3.png" srcset="/img/loading.gif" lazyload class="" title="A2C3">  
-
-<p>技巧 2-探索与利用：约束动作的概率分布，使得分布的熵不要太小，以尝试不同的动作，避免陷入局部极优。</p>
-<img src="/2024/06/25/Actor-Critic/A2C4.png" srcset="/img/loading.gif" lazyload class="" title="A2C4">  
-
-
-
-
-
-
+<p>更新网络-再玩n场游戏，采集数据-再训练一个batch，这种更新策略叫On Policy</p>
 
                 
               </div>
@@ -394,8 +358,6 @@
       
         <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
       
-        <a href="/tags/A2C/" class="print-no-link">#A2C</a>
-      
     </div>
   
 </div>
@@ -406,8 +368,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Actor-Critic</div>
-      <div>https://jiguang1134.github.io/2024/06/25/Actor-Critic/</div>
+      <div>强化学习PPO</div>
+      <div>https://jiguang1134.github.io/2024/09/04/强化学习PPO/</div>
     </div>
     <div class="license-meta">
       
@@ -419,7 +381,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月25日</div>
+          <div>2024年9月4日</div>
         </div>
       
       
@@ -451,18 +413,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/" title="强化学习PPO">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">强化学习PPO</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/17/DQN/" title="DQN">
-                        <span class="hidden-mobile">DQN</span>
+                      <a href="/2024/06/25/Actor-Critic/" title="Actor-Critic">
+                        <span class="hidden-mobile">Actor-Critic</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
