@@ -1,0 +1,1061 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="极光">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="全连接神经网络反向传播算法详细推导">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反向传播算法推导-全连接神经网络">
+<meta property="og:url" content="https://jiguang1134.github.io/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="极光">
+<meta property="og:description" content="全连接神经网络反向传播算法详细推导">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E7%AE%97%E6%B3%95%E5%8E%86%E5%8F%B2.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%861.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%862.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%AE%8C%E6%95%B4%E7%AE%97%E6%B3%951.png">
+<meta property="og:image" content="https://jiguang1134.github.io/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%AE%8C%E6%95%B4%E7%AE%97%E6%B3%952.png">
+<meta property="article:published_time" content="2024-09-05T11:56:27.000Z">
+<meta property="article:modified_time" content="2024-09-05T14:07:15.453Z">
+<meta property="article:author" content="极光">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jiguang1134.github.io/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E7%AE%97%E6%B3%95%E5%8E%86%E5%8F%B2.png">
+  
+  
+  
+  <title>反向传播算法推导-全连接神经网络 - 极光</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jiguang1134.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>极光</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/3.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="反向传播算法推导-全连接神经网络"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-05 19:56" pubdate>
+          2024年9月5日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">反向传播算法推导-全连接神经网络</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>https://zhuanlan.zhihu.com/p/39195266</p>
+</blockquote>
+<h1 id="算法的历史">算法的历史</h1>
+<p>反向传播算法最早出现于1986年，用于解决多层神经网络的训练问题，由Rumelhart和Hinton等人提出，这篇论文当时发表在Nature上:</p>
+<p>David E. Rumelhart, Geoffrey E. Hinton, and Ronald J. Williams.
+Learning internal representations by back-propagating errors. Nature,
+323(99): 533-536, 1986.</p>
+<img src="/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E7%AE%97%E6%B3%95%E5%8E%86%E5%8F%B2.png" srcset="/img/loading.gif" lazyload class="" title="算法历史">
+<h1 id="链式法则">链式法则</h1>
+<p>在正式介绍神经网络的原理之前，先回顾一下多元函数求导的链式法则。对于如下的多元复合函数：</p>
+<p><span
+class="math display">\[f\left(u\left(x,y\right),\nu\left(x,y\right),w\left(x\right)\right)\]</span></p>
+<p>在这里，x和y是自变量。其中u，v，w是x的函数，u，v是y的函数，而f又是u，v，w的函数。根据链式法则，函数f对x和y的偏导数分别为：</p>
+<p><span class="math display">\[\begin{aligned}&amp;\frac{\partial
+f}{\partial x}=\frac{\partial f}{\partial u}\frac{\partial u}{\partial
+x}+\frac{\partial f}{\partial\nu}\frac{\partial\nu}{\partial
+x}+\frac{\partial f}
+{\partial w}\frac{\partial w}{\partial x}\end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned}&amp;\frac{\partial
+f}{\partial y}=\frac{\partial f}{\partial u}\frac{\partial u}{\partial
+y}+\frac{\partial f}{\partial\nu}\frac{\partial\nu}{\partial
+y}\end{aligned}\]</span></p>
+<p>总结起来，函数自变量x的偏导数等于函数对它上一层的复合节点的偏导数（在这里是u，v，w）与这些节点对x的偏导数乘积之和。因此，我们要计算某一个自变量的偏导数，最直接的路径是找到它上一层的复合节点，根据这些节点的偏导数来计算。</p>
+<h1 id="神经网络原理简介">神经网络原理简介</h1>
+<p>在推导算法之前，我们首先简单介绍一下人工神经网络的原理。大脑的神经元通过突触与其他神经元相连接，接收其他神经元送来的信号，经过汇总处理之后产生输出。在人工神经网络中，神经元的作用和这类似。下图是一个神经元的示意图，左侧为输入数据，右侧为输出数据：</p>
+<img src="/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%861.png" srcset="/img/loading.gif" lazyload class="" title="神经网络原理1">
+<p>这个神经元接受的输入信号为向量(x1,x2,x3,x4,x5)，向量(w1,w2,w3,w4,w5)为输入向量的组合权重，b为偏置项，是标量。神经元对输入向量进行加权求和，并加上偏置项，最后经过激活函数变换产生输出：</p>
+<p><span
+class="math display">\[y=f\left(\sum_{i=1}^5w_ix_i+b\right)\]</span></p>
+<p>为表述简洁，我们把公式写成向量和矩阵形式。对每个神经元，它接受的来自前一层神经元的输入为向量x，本节点的权重向量为w，偏置项为b，该神经元的输出值为：</p>
+<p><span
+class="math display">\[f\left(\mathrm{w}^\mathrm{T}\mathrm{x}+b\right)\]</span></p>
+<p>先计算输入向量与权重向量的内积，加上偏置项，再送入一个函数进行变换，得到输出。这个函数称为激活函数，典型的是sigmoid函数。</p>
+<p>神经网络一般有多个层。第一层为输入层，对应输入向量，神经元的数量等于特征向量的维数，这个层不对数据进行处理，只是将输入向量送入下一层中进行计算。中间为隐含层，可能有多个。最后是输出层，神经元的数量等于要分类的类别数，输出层的输出值被用来做分类预测。</p>
+<p>下面我们来看一个简单神经网络的例子，如下图所示：</p>
+<img src="/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%862.png" srcset="/img/loading.gif" lazyload class="" title="神经网络原理2">
+<p>这个网络有3层。第一层是输入层，对应的输入向量为x，有3个神经元，写成分量形式为（x1,x2,x3）它不对数据做任何处理，直接原样送入下一层。中间层有4个神经元，接受的输入数据为向量x，输出向量为y，写成分量形式为(y1,y2,y3,y4,y5)。第三个层为输出层，接受的输入数据为向量y，输出向量为z，写成分量形式为(z1,z2)。第一层到第二层的权重矩阵为W(1)，第二层到第三层的权重矩阵为W(2)。权重矩阵的每一行为一个权重向量，是上一层所有神经元到本层某一个神经元的连接权重，这里的上标表示层数。</p>
+<p>如果激活函数选用sigmoid函数，则第二层神经元的输出值为：</p>
+<p><span
+class="math display">\[y_{1}=\frac{1}{1+\exp\left(-\left(w_{11}^{(1)}x_{1}+w_{12}^{(1)}x_{2}+w_{13}^{(1)}x_{3}+b_{1}^{(1)}\right)\right)}\]</span></p>
+<p><span
+class="math display">\[y_{2}=\frac{1}{1+\exp\left(-\left(w_{21}^{(1)}x_{1}+w_{22}^{(1)}x_{2}+w_{23}^{(1)}x_{3}+b_{2}^{(1)}\right)\right)}\]</span></p>
+<p><span
+class="math display">\[y_{3}=\frac{1}{1+\exp\left(-\left(w_{31}^{(1)}x_{1}+w_{32}^{(1)}x_{2}+w_{33}^{(1)}x_{3}+b_{3}^{(1)}\right)\right)}\]</span></p>
+<p><span
+class="math display">\[y_{4}=\frac{1}{1+\exp\left(-\left(w_{41}^{(1)}x_{1}+w_{42}^{(1)}x_{2}+w_{43}^{(1)}x_{3}+b_{4}^{(1)}\right)\right)}\]</span></p>
+<p>第三层神经元的输出值为：</p>
+<p><span
+class="math display">\[z_1=\frac{1}{1+\exp\left(-\left(w_{11}^{(2)}y_1+w_{12}^{(2)}y_2+w_{13}^{(2)}y_3+w_{14}^{(2)}y_4+b_1^{(2)}\right)\right)}\]</span></p>
+<p><span
+class="math display">\[z_2=\frac{1}{1+\exp\left(-\left(w_{21}^{(2)}y_1+w_{22}^{(2)}y_2+w_{23}^{(2)}y_3+w_{24}^{(2)}y_4+b_2^{(2)}\right)\right)}\]</span></p>
+<p>如果把yi代入上面二式中，可以将输出向量z表示成输出向量x的函数。通过调整权重矩阵和偏置项可以实现不同的函数映射，因此神经网络就是一个复合函数。</p>
+<p>需要解决的一个核心问题是一旦神经网络的结构（即神经元层数，每层神经元数量）确定之后，<strong>怎样得到权重矩阵和偏置项</strong>。这些参数是通过训练得到的，这是推导的核心任务。</p>
+<h2 id="一个简单的例子">一个简单的例子</h2>
+<p>首先以前面的3层神经网络为例，推导损失函数对神经网络所有参数梯度的计算方法。假设训练样本集中有m个样本(xi,zi)。其中x为输入向量，z为标签向量。现在要确定神经网络的映射函数：</p>
+<p><span
+class="math display">\[\mathbf{z}=h\left(\mathbf{x}\right)\]</span></p>
+<p>什么样的函数能很好的解释这批训练样本？答案是神经网络的预测输出要尽可能的接近样本的标签值，即在训练集上最小化预测误差。如果使用均方误差，则优化的目标为：</p>
+<p><span
+class="math display">\[L=\frac1{2m}\sum_{i=1}^m\left\|h\left(x_i\right)-z_i\right\|^2\]</span></p>
+<p>其中h(x)和<span
+class="math inline">\(z_i\)</span>都是向量，求和项内部是向量的2范数平方，即各个分量的平方和。上面的误差也称为欧氏距离损失函数，除此之外还可以使用其他损失函数，如交叉熵、对比损失等。</p>
+<p>优化目标函数的自变量是各层的权重矩阵和梯度向量，一般情况下无法保证目标函数是凸函数，因此这不是一个凸优化问题，有陷入局部极小值和鞍点的风险，这是神经网络之前一直被诟病的一个问题。可以使用梯度下降法进行求解，使用梯度下降法需要计算出损失函数对所有权重矩阵、偏置向量的梯度值，接下来的关键是这些梯度值的计算。在这里我们先将问题简化，只考虑对单个样本的损失函数：</p>
+<p><span
+class="math display">\[L=\frac12{\left\|h\left(x\right)-z\right\|}^2\]</span></p>
+<p>后面如果不加说明，都使用这种单样本的损失函数。如果计算出了对单个样本损失函数的梯度值，对这些梯度值计算均值即可得到整个目标函数的梯度值。</p>
+<p><span class="math inline">\(w^{(1)}\)</span>和<span
+class="math inline">\(w^{(2)}\)</span>要被代入到网络的后一层中，是复合函数的内层变量，我们先考虑外层的<span
+class="math inline">\(w^{(2)}\)</span>和<span
+class="math inline">\(b^{(2)}\)</span>。权重矩阵<span
+class="math inline">\(w^{(2)}\)</span>是一个2x4的矩阵，它的两个行分别为向量<span
+class="math inline">\(w^{(1)}\)</span>和<span
+class="math inline">\(w^{(2)}\)</span>，<span
+class="math inline">\(b^{(2)}\)</span>是一个2维的列向量，它的两个元素为<span
+class="math inline">\(b^{(1)}\)</span>和<span
+class="math inline">\(b^{(2)}\)</span>。网络的输入是向量x，第一层映射之后的输出是向量y。</p>
+<p>首先计算损失函数对权重矩阵每个元素的偏导数，将欧氏距离损失函数展开，有：</p>
+<p><span class="math display">\[\frac{\partial L}{\partial
+w_{ij}^{(2)}}=\frac{\partial\frac12\left(\left(f\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)-z_1\right)^2+\left(f\left(\mathrm{w}_2^{(2)}\mathrm{y}+b_2^{(2)}\right)-z_2\right)^2\right)}{\partial
+w_{ij}^{(2)}}\]</span></p>
+<p>如果i = 1，即对权重矩阵第一行的元素求导，上式分子中的后半部分对 <span
+class="math inline">\(w_{ij}\)</span> 来说是常数。根据链式法则有：</p>
+<p><span class="math display">\[\begin{aligned}
+\frac{\partial L}{\partial w_{ij}^{(2)}}&amp;
+=\left(f\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)-z_1\right)f^{&#39;}\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)\frac{\partial\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)}{\partial
+w_{ij}^{(2)}} \\
+&amp;=\left(f\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)-z_1\right)f&#39;\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)\frac{\partial\left(\sum_{k=1}^4w_{1k}^{(2)}y_k+b_1^{(2)}\right)}{\partial
+w_{ij}^{(2)}} \\
+&amp;=\left(f\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)-z_1\right)f^{&#39;}\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)y_j
+\end{aligned}\]</span></p>
+<p>如果i = 2，即对矩阵第二行的元素求导，类似的有：</p>
+<p><span class="math display">\[\frac{\partial L}{\partial
+w_{ij}^{(2)}}=\left(f\left(\mathrm{w}_2^{(2)}\mathrm{y}+b_2^{(2)}\right)-z_2\right)f^{\prime}\left(\mathrm{w}_2^{(2)}\mathrm{y}+b_2^{(2)}\right)y_j\]</span></p>
+<p>可以统一写成：</p>
+<p><span class="math display">\[\frac{\partial L}{\partial
+w_{ij}^{(2)}}=\left(f\left(\mathrm{w}_i^{(2)}\mathrm{y}+b_i^{(2)}\right)-z_i\right)f^{\prime}\left(\mathrm{w}_i^{(2)}\mathrm{y}+b_i^{(2)}\right)y_j\]</span></p>
+<p>可以发现，第一个下标i决定了权重矩阵的第i行和偏置向量的第i个分量，第二个下标j决定了向量y的第j个分量。这可以看成是一个列向量与一个行向量相乘的结果，写成矩阵形式为：</p>
+<p><span
+class="math display">\[\nabla_{\mathrm{W}^{(2)}}L=\left(f\left(\mathrm{W}^{(2)}\mathrm{y}+\mathrm{b}^{(2)}\right)-\mathrm{z}\right)\odot
+f^{\prime}\left(\mathrm{W}^{(2)}\mathrm{y}+\mathrm{b}^{(2)}\right)\mathrm{y}^{\mathrm{T}}\]</span></p>
+<p>上式中乘法$<span
+class="math inline">\(为向量对应元素相乘，第二个乘法是矩阵乘法。\)</span>f(w<sup>{(2)}y+b</sup>{(2)})-z<span
+class="math inline">\(是一个二维向量，\)</span>f(w<sup>{(2)}y+b</sup>{(2)})<span
+class="math inline">\(也是一个二维向量，两个向量执行\)</span><span
+class="math inline">\(运算的结果还是一个 2 维列向量。y 是一个 4
+元素的列向量，其转置为 4
+维行向量，前面这个二维列向量与\)</span>y<sup>{T}<span
+class="math inline">\(的乘积为 2x4
+的矩阵，这正好与矩阵\)</span>w</sup>{(2)}<span
+class="math inline">\(的尺寸相等。在上面的公式中，权重的偏导数在求和项中由
+3
+部分组成，分别是网络输出值与真实标签值的误差\)</span>f(w<sup>{(2)}y+b</sup>{(2)})-z<span
+class="math inline">\(，激活函数的导数\)</span>f(w<sup>{(2)}y+b</sup>{(2)})$，本层的输入值
+y。神经网络的输出值、激活函数的导数值、本层的输入值都可以在正向传播时得到，因此可以高效的计算出来。对所有训练样本的偏导数计算均值，可以得到总的偏导数。</p>
+<p>对偏置项的偏导数为：</p>
+<p><span
+class="math display">\[\frac{\partial\left(\left(f\left(\mathbf{w}_1^{(2)}\mathbf{y}+b_1^{(2)}\right)-z_1\right)^2+\left(f\left(\mathbf{w}_2^{(2)}\mathbf{y}+b_2^{(2)}\right)-z_2\right)^2\right)}{\partial
+b_i^{(2)}}\]</span></p>
+<p>如果i = 1，上式分子中的后半部分对<span
+class="math inline">\(b_1\)</span>来说是常数，有：</p>
+<p><span class="math display">\[\begin{aligned}\frac{\partial
+L}{\partial
+b_{1}^{(2)}}&amp;=\left(f\left(\mathrm{w}_{1}^{(2)}\mathrm{y}+b_{1}^{(2)}\right)-z_{1}\right)f^{\prime}\left(\mathrm{w}_{1}^{(2)}\mathrm{y}+b_{1}^{(2)}\right)\frac{\partial\left(\mathrm{w}_{1}^{(2)}\mathrm{y}+b_{1}^{(2)}\right)}{\partial
+b_{1}^{(2)}}\\&amp;=\left(f\left(\mathrm{w}_{1}^{(2)}\mathrm{y}+b_{1}^{(2)}\right)-z_{1}\right)f^{\prime}\left(\mathrm{w}_{1}^{(2)}\mathrm{y}+b_{1}^{(2)}\right)\end{aligned}\]</span></p>
+<p>如果i = 2，类似的有：</p>
+<p><span class="math display">\[\frac{\partial L}{\partial
+b_2^{(2)}}=\left(f\left(\mathrm{w}_2^{(2)}\mathrm{y}+b_2^{(2)}\right)-z_2\right)f^{\prime}\left(\mathrm{w}_2^{(2)}\mathrm{y}+b_2^{(2)}\right)\]</span></p>
+<p>这可以统一写成</p>
+<p><span class="math display">\[\frac{\partial L}{\partial
+b_i^{(2)}}=\left(f\left(\mathrm{w}_i^{(2)}\mathrm{y}+b_i^{(2)}\right)-z_i\right)f^{\prime}\left(\mathrm{w}_i^{(2)}\mathrm{y}+b_i^{(2)}\right)\]</span></p>
+<p>写成矩阵形式为：</p>
+<p><span
+class="math display">\[\nabla_{\mathrm{b}^{(2)}}L=\left(f\left(\mathrm{W}^{(2)}\mathrm{y}+\mathrm{b}^{(2)}\right)-\mathrm{z}\right)\odot
+f^{\prime}\left(\mathrm{W}^{(2)}\mathrm{y}+\mathrm{b}^{(2)}\right)\]</span></p>
+<p>偏置项的导数由两部分组成，分别是神经网络预测值与真实值之间的误差，激活函数的导数值，与权重矩阵的偏导数相比唯一的区别是少了<span
+class="math inline">\(y^{T}\)</span></p>
+<p>接下来计算对<span class="math inline">\(w^{(1)}\)</span>和<span
+class="math inline">\(w^{(2)}\)</span>的偏导数，由于是复合函数的内层，情况更为复杂。<span
+class="math inline">\(w^{(1)}\)</span>是一个 4x3 的矩阵，它的 4
+个行向量为<span
+class="math inline">\(w_1^1,w_2^1,w_3^1,w_4^1\)</span>。偏置项<span
+class="math inline">\(b^{(1)}\)</span>是 4 维向量，4个分量分别是<span
+class="math inline">\(b_1^1,b_2^1,b_3^1,b_4^1\)</span>。首先计算损失函数对<span
+class="math inline">\(w^{(1)}\)</span>的元素的偏导数:</p>
+<p><span class="math display">\[\frac{\partial L}{\partial
+w_{ij}^{(1)}}=\frac{\partial\frac12\left(\left(f\left(\mathrm{w}_1^{(2)}\mathrm{y}+b_1^{(2)}\right)-z_1\right)^2+\left(f\left(\mathrm{w}_2^{(2)}\mathrm{y}+b_2^{(2)}\right)-z_2\right)^2\right)}{\partial
+w_{ij}^{(1)}}\]</span></p>
+<p>而</p>
+<p><span
+class="math display">\[\mathrm{y}=f\left(\mathrm{W}^{(1)}\mathrm{x}+\mathrm{b}^{(1)}\right)\]</span></p>
+<p>上式分子中的两部分都有y，因此都与<span
+class="math inline">\(w^{(1)}\)</span>有关。为了表述简洁，我们令：</p>
+<p><span
+class="math display">\[\mathrm{u}^{(2)}=\mathrm{W}^{(2)}\mathrm{y}+\mathrm{b}^{(2)}\]</span></p>
+<p>根据链式法则有</p>
+<p><span class="math display">\[\frac{\partial L}{\partial
+w_{ij}^{(1)}}=\left(f\left(u_1^{(2)}\right)-z_1\right)f^{&#39;}\left(u_1^{(2)}\right)\frac{\partial\mathrm{w}_1^{(2)}\mathrm{y}}{\partial
+w_{ij}^{(1)}}+\left(f\left(u_2^{(2)}\right)-z_2\right)f^{&#39;}\left(u_2^{(2)}\right)\frac{\partial\mathrm{w}_2^{(2)}\mathrm{y}}{\partial
+w_{ij}^{(1)}}\]</span></p>
+<p>其中<span class="math inline">\(f(u_1^2)-z_1\)</span>和<span
+class="math inline">\(f^{`}(u_{1}^{2})\)</span>，<span
+class="math inline">\(f(u_2^2)-z_2\)</span>和 <span
+class="math inline">\(f^{`}(u_{2}^{2})\)</span>都是标量，<span
+class="math inline">\(w_1^2y\)</span>和<span
+class="math inline">\(w_2^2y\)</span> 是两个向量的内积，y
+的每一个分量都是<span
+class="math inline">\(w_{ij}^{1}\)</span>的函数，接下来计算<span
+class="math inline">\(\frac{\alpha w_{1}^{(2)}y}{\alpha
+w_{ij}^{(1)}}\)</span>和<span class="math inline">\(\frac{\alpha
+w_{2}^{(2)}y}{\alpha w_{ij}^{(1)}}\)</span></p>
+<p><span
+class="math display">\[\frac{\partial\mathbf{w}_1^{(2)}\mathbf{y}}{\partial
+w_{ij}^{(1)}}=\mathbf{w}_1^{(2)}\frac{\partial\mathbf{y}}{\partial
+w_{ij}^{(1)}}\]</span></p>
+<p>这里的<span class="math inline">\(\frac{\alpha y}{\alpha
+w_{ij}^{(1)}}\)</span>是一个向量，表示y的每个分量分别对<span
+class="math inline">\(w_{ij}^{(1)}\)</span>求导。当i=1时有:</p>
+<p><span class="math display">\[\frac{\partial\mathbf{y}}{\partial
+w_{ij}^{(1)}}=\begin{bmatrix}\frac{\partial y_1}{\partial
+w_{ij}^{(1)}}\\\frac{\partial y_2}{\partial
+w_{ij}^{(1)}}\\\frac{\partial y_3}{\partial
+w_{ij}^{(1)}}\\\frac{\partial y_4}{\partial
+w_{ij}^{(1)}}\end{bmatrix}=\begin{bmatrix}f&#39;\left(\mathrm{w}_1^{(1)}\mathrm{x}+b_1^{(1)}\right)x_j\\0\\0\\0\end{bmatrix}\]</span></p>
+<p>后面3个分量相对于求导变量<span
+class="math inline">\(w_{ij}^{(1)}\)</span>都是常数。类似的当i =
+2时有：</p>
+<p><span class="math display">\[\frac{\partial\mathbf{y}}{\partial
+w_{ij}^{(1)}}=\begin{bmatrix}\frac{\partial y_1}{\partial
+w_{ij}^{(1)}}\\\frac{\partial y_2}{\partial
+w_{ij}^{(1)}}\\\frac{\partial y_3}{\partial
+w_{ij}^{(1)}}\\\frac{\partial y_4}{\partial
+w_{ij}^{(1)}}\end{bmatrix}=\begin{bmatrix}0\\f&#39;&#39;\Big(\mathrm{w}_2^{(1)}\mathrm{x}+b_1^{(1)}\Big)x_j\\0\\0\end{bmatrix}\]</span></p>
+<p>i = 3和i = 4时的结果以此类推。综合起来有：</p>
+<p><span
+class="math display">\[\frac{\partial\mathrm{w}_1^{(2)}\mathrm{y}}{\partial
+w_{ij}^{(1)}}=w_{1i}^{(2)}f^{&#39;}\left(\mathrm{w}_i^{(1)}\mathrm{x}+b_i^{(1)}\right)x_j\]</span></p>
+<p>同理有：</p>
+<p><span
+class="math display">\[\frac{\partial\mathrm{w}_2^{(2)}\mathrm{y}}{\partial
+w_{ij}^{(1)}}=w_{2i}^{(2)}f&#39;\left(\mathrm{w}_i^{(1)}\mathrm{x}+b_i^{(1)}\right)x_j\]</span></p>
+<p>如果令：</p>
+<p><span
+class="math display">\[\mathbf{u}^{\begin{pmatrix}1\end{pmatrix}}=\mathbf{W}^{\begin{pmatrix}1\end{pmatrix}}\mathbf{x}+\mathbf{b}^{\begin{pmatrix}1\end{pmatrix}}\]</span></p>
+<p>合并得到：</p>
+<p><span class="math display">\[\begin{aligned}
+\frac{\partial L}{\partial w_{ij}^{(1)}}&amp;
+=\left(f\left(u_1^{(2)}\right)-z_1\right)f&#39;\left(u_1^{(2)}\right)\frac{\partial\mathrm{w}_1^{(2)}\mathrm{y}}{\partial
+w_{ij}^{(1)}}+\left(f\left(u_2^{(2)}\right)-z_2\right)f&#39;\left(u_2^{(2)}\right)\frac{\partial\mathrm{w}_2^{(2)}\mathrm{y}}{\partial
+w_{ij}^{(1)}} \\
+&amp;=\left(f\left(u_1^{(2)}\right)-z_1\right)f^{\prime}\left(u_1^{(2)}\right)w_{1i}^{(2)}f^{\prime}\left(u_1^{(1)}\right)x_j+\left(f\left(u_2^{(2)}\right)-z_2\right)f^{\prime}\left(u_2^{(2)}\right)w_{2i}^{(2)}f^{\prime}\left(u_2^{(1)}\right)x_j
+\\
+&amp;=\begin{bmatrix}w_{1i}^{(2)}&amp;w_{2i}^{(2)}\end{bmatrix}\left(\left(f\left(\mathbf{u}^{(2)}\right)-\mathbf{z}\right)\odot
+f&#39;\left(\mathbf{u}^{(2)}\right)\odot
+f&#39;\left(\mathbf{u}^{(1)}\right)\right)x_j
+\end{aligned}\]</span></p>
+<p>写成矩阵形式为：</p>
+<p><span
+class="math display">\[\nabla_{\mathrm{W}^{(1)}}L=\left(\mathrm{W}^{(2)}\right)^{\mathrm{T}}\left(\left(f\left(\mathrm{u}^{(2)}\right)-\mathrm{z}\right)\odot
+f^{\prime}\left(\mathrm{u}^{(2)}\right)\odot
+f^{\prime}\left(\mathrm{u}^{(1)}\right)\right)\mathrm{x}^{\mathrm{T}}\]</span></p>
+<p>最后计算偏置项的偏导数：</p>
+<p><span class="math display">\[\frac{\partial L}{\partial
+b_{i}^{(1)}}=\left(f\left(u_{1}^{(2)}\right)-z_{1}\right)f^{&#39;}\left(u_{1}^{(2)}\right)\frac{\partial\mathbf{w}_{1}^{(2)}\mathbf{y}}{\partial
+b_{i}^{(1)}}+\left(f\left(u_{2}^{(2)}\right)-z_{2}\right)f^{&#39;}\left(u_{2}^{(2)}\right)\frac{\partial\mathbf{w}_{2}^{(2)}\mathbf{y}}{\partial
+b_{i}^{(1)}}\]</span></p>
+<p>类似的我们得到：</p>
+<p><span
+class="math display">\[\frac{\partial\mathbf{w}_1^{(2)}\mathbf{y}}{\partial
+b_i^{(1)}}=w_{1i}^{(2)}f&#39;\left(\mathbf{w}_i^{(1)}\mathbf{x}+b_i^{(1)}\right)\]</span></p>
+<p>合并后得到：</p>
+<p><span class="math display">\[\begin{aligned}
+\frac{\partial L}{\partial b_i^{(1)}}&amp;
+=\left(f\left(u_{1}^{(2)}\right)-z_{1}\right)f^{&#39;}\left(u_{1}^{(2)}\right)\frac{\partial\mathbf{w}_{1}^{(2)}\mathbf{y}}{\partial
+b_{i}^{(1)}}+\left(f\left(u_{2}^{(2)}\right)-z_{2}\right)f^{&#39;}\left(u_{2}^{(2)}\right)\frac{\partial\mathbf{w}_{2}^{(2)}\mathbf{y}}{\partial
+b_{i}^{(1)}} \\
+&amp;=\left(f\left(u_{1}^{(2)}\right)-z_{1}\right)f^{&#39;}\left(u_{1}^{(2)}\right)w_{1i}^{(2)}f^{&#39;}\left(u_{1}^{(1)}\right)+\left(f\left(u_{2}^{(2)}\right)-z_{2}\right)f^{&#39;}\left(u_{2}^{(2)}\right)w_{2i}^{(2)}f^{&#39;}\left(u_{2}^{(1)}\right)
+\\
+&amp;=\left[\begin{array}{cc}w_{1i}^{(2)}&amp;w_{2i}^{(2)}\end{array}\right]\left(\left(f\left(\mathbf{u}^{(2)}\right)-\mathbf{z}\right)\odot
+f^{\prime}\left(\mathbf{u}^{(2)}\right)\odot
+f^{\prime}\left(\mathbf{u}^{(1)}\right)\right)
+\end{aligned}\]</span></p>
+<p>写成矩阵形式为：</p>
+<p><span
+class="math display">\[\nabla_{\mathrm{b}^{(1)}}L=\left(\mathrm{W}^{(2)}\right)^\mathrm{T}\left(\left(f\left(\mathrm{u}^{(2)}\right)-\mathrm{z}\right)\odot
+f^{\prime}\left(\mathrm{u}^{(2)}\right)\odot
+f^{\prime}\left(\mathrm{u}^{(1)}\right)\right)\]</span></p>
+<p>至此，我得到了这个简单网络对所有参数的偏导数，接下来我们将这种做法推广到更一般的情况。从上面的结果可以看出一个规律，输出层的权重矩阵和偏置向量梯度计算公式中共用了<span
+class="math inline">\(f(u^{(2)}-z)\odot
+f^{&#39;}(u^{(2)})\)</span>。对于隐含层也有类似的结果。</p>
+<h1 id="完整的算法">完整的算法</h1>
+<p>根据上面的结论可以方便的推导出神经网络的求导公式。假设神经网络有<span
+class="math inline">\(n_l\)</span>层第l层神经元个数为<span
+class="math inline">\(s_l\)</span>。第 l 层从第 l-1
+层接收的输入向量为<span
+class="math inline">\(x^{(l-1)}\)</span>,本层的权重矩阵为<span
+class="math inline">\(w^{(l)}\)</span>，偏置向量为<span
+class="math inline">\(b^{(l)}\)</span>，输出向量为<span
+class="math inline">\(x^{(l)}\)</span>。该层的输出可以写成如下矩阵形式:</p>
+<p><span
+class="math display">\[\begin{aligned}&amp;\mathbf{u}^{(l)}=\mathbf{W}^{(l)}\mathbf{X}^{(l-1)}+\mathbf{b}^{(l)}\\&amp;\mathbf{x}^{(l)}=f\left(\mathbf{u}^{(l)}\right)\end{aligned}\]</span></p>
+<p>其中<span class="math inline">\(w^{(l)}\)</span>是<span
+class="math inline">\(s_l\times s_{l-1}\)</span>的矩阵，<span
+class="math inline">\(u^{(l)}\)</span>和<span
+class="math inline">\(b^{(l)}\)</span>是<span
+class="math inline">\(s_l\)</span>维的向量。神经网络一个层实现的变换如下图所示:</p>
+<img src="/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%AE%8C%E6%95%B4%E7%AE%97%E6%B3%951.png" srcset="/img/loading.gif" lazyload class="" title="完整算法1">
+<p>如果将神经网络按照各个层展开，最后得到一个深层的复合函数，将其代入欧氏距离损失函数，依然是一个关于各个层的权重矩阵和偏置向量的复合函数：</p>
+<img src="/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%AE%8C%E6%95%B4%E7%AE%97%E6%B3%952.png" srcset="/img/loading.gif" lazyload class="" title="完整算法2">
+<p>要计算某一层的权重矩阵和偏置向量的梯度，只能依赖于它紧贴着的外面那一层变量的梯度值，通过一次复合函数求导得到。</p>
+<p>根据定义，<span class="math inline">\(w^{(l)}\)</span>和<span
+class="math inline">\(b^{(l)}\)</span>是目标函数的自变量，<span
+class="math inline">\(u^{(l)}\)</span>和<span
+class="math inline">\(x^{(l)}\)</span>可以看成是它们的函数。根据前面的结论，损失函数对权重矩阵的梯度为:</p>
+<p><span
+class="math display">\[\nabla_{\mathrm{W}^{(l)}}L=\left(\nabla_{\mathrm{u}^{(l)}}L\right)\left(\mathrm{x}^{(l-1)}\right)^{\mathrm{T}}\]</span></p>
+<p>对偏置向量的梯度为：</p>
+<p><span
+class="math display">\[\nabla_{\mathfrak{b}^{(l)}}L=\nabla_{\mathfrak{u}^{(l)}}L\]</span></p>
+<p>现在的问题是，梯度<span
+class="math inline">\(\bigtriangledown_{u^{(l)}}L\)</span>怎么计算?我们分两种情况讨论，如果第l层是输出层，在这里只考虑对单个样本的损失函数，根据上一节推导的结论，这个梯度为：</p>
+<p><span
+class="math display">\[\nabla_{\mathrm{u}^{(l)}}L=\left(\nabla_{\mathrm{x}^{(l)}}L\right)\odot
+f^{&#39;}\left(\mathrm{u}^{(l)}\right)=\left(\mathrm{x}^{(l)}-\mathrm{y}\right)\odot
+f^{&#39;}\left(\mathrm{u}^{(l)}\right)\]</span></p>
+<p>这就是输出层的神经元输出值与期望值之间的误差。这样我们得到输出层权重的梯度为：</p>
+<p><span
+class="math display">\[\nabla_{\mathrm{W}^{(l)}}L=\left(\mathrm{x}^{(l)}-\mathrm{y}\right)\odot
+f^{\prime}\left(\mathrm{u}^{(l)}\right)\left(\mathrm{x}^{(l-1)}\right)^{\mathrm{T}}\]</span></p>
+<p>等号右边第一个乘法是向量对应元素乘；第二个乘法是矩阵乘，在这里是列向量与行向量的乘积，结果是一个矩阵，尺寸刚好和权重矩阵相同。损失函数对偏置项的梯度为：</p>
+<p><span
+class="math display">\[\nabla_{\mathfrak{b}^{(l)}}L=\left(\mathbf{x}^{(l)}-\mathbf{y}\right)\odot
+f^{\prime}\left(\mathbf{u}^{(l)}\right)\]</span></p>
+<p>下面考虑第二种情况。如果第l+1层是隐含层，则有：</p>
+<p><span
+class="math display">\[\mathbf{u}^{(l+1)}=\mathbf{W}^{(l+1)}\mathbf{x}^{(l)}+\mathbf{b}^{(l+1)}=\mathbf{W}^{(l+1)}f\left(\mathbf{u}^{(l)}\right)+\mathbf{b}^{(l+1)}\]</span></p>
+<p>假设梯度<span
+class="math inline">\(\bigtriangledown_{u^{(l)}}L\)</span>已经求出，根据前面的结论，有:</p>
+<p><span
+class="math display">\[\nabla_{\mathbf{u}^{(l)}}L=\left(\nabla_{\mathbf{x}^{(l)}}L\right)\odot
+f^{&#39;}\left(\mathbf{u}^{(l)}\right)=\left(\left(\mathbf{W}^{(l+1)}\right)^{\mathrm{T}}\nabla_{\mathbf{u}^{(l+1)}}L\right)\odot
+f^{&#39;}\left(\mathbf{u}^{(l)}\right)\]</span></p>
+<p>这是一个递推的关系，通过<span
+class="math inline">\(\bigtriangledown_{u^{(l+1)}}L\)</span>可以计算出<span
+class="math inline">\(\bigtriangledown_{u^{(l)}}L\)</span>，递推的终点是输出层，而输出层的梯度值我们之前已经算出。由于根据<span
+class="math inline">\(\bigtriangledown_{u^{(l)}}L\)</span>可以计算出<span
+class="math inline">\(\bigtriangledown_{w^{(l)}}L\)</span>和<span
+class="math inline">\(\bigtriangledown_{b^{(l)}}L\)</span>，因此可以计算出任意层权重与偏置的梯度值。</p>
+<p><span
+class="math display">\[\delta^{(l)}=\nabla_{\mathrm{u}^{(l)}}L=\begin{cases}\left(\mathrm{x}^{(l)}-\mathrm{y}\right)\odot
+f^{&#39;}\left(\mathrm{u}^{(l)}\right)&amp;l=n_l\\\\\left(\mathrm{W}^{(l+1)}\right)^\mathrm{T}\left(\delta^{(l+1)}\right)\odot
+f^{&#39;}\left(\mathrm{u}^{(l)}\right)&amp;l\neq
+n_l\end{cases}\]</span></p>
+<p>向量<span
+class="math inline">\(\delta^{(l)}\)</span>的尺寸和本层神经元的个数相同。这是一个递推的定义，<span
+class="math inline">\(\delta^{(l)}\)</span>依赖于<span
+class="math inline">\(\delta^{(l+1)}\)</span>，递推的终点是输出层，它的误差项可以直接求出。</p>
+<p>根据误差项可以方便的计算出对权重和偏置的偏导数。首先计算输出层的误差项，根据他得到权重和偏置项的梯度，这是起点；根据上面的递推公式，逐层向前，利用后一层的误差项计算出本层的误差项，从而得到本层权重和偏置项的梯度。</p>
+<p>单个样本的反向传播算法在每次迭代时的流程为：</p>
+<p>1.正向传播，利用当前权重和偏置值，计算每一层对输入样本的输出值</p>
+<p>2.反向传播，对输出层的每一个节点计算其误差：</p>
+<p><span
+class="math display">\[\delta^{(n_l)}=\left(\mathrm{x}^{(n_l)}-\mathrm{y}\right)\odot
+f^{\prime}\left(\mathrm{u}^{(n_l)}\right)\]</span></p>
+<p>3.对于<span
+class="math inline">\(l=n_{l}-1,...,2\)</span>的各层，计算第l层每个节点的误差</p>
+<p><span
+class="math display">\[\delta^{(l)}=\left(\mathrm{W}^{(l+1)}\right)^\mathrm{T}\delta^{(l+1)}\odot
+f^{\prime}\left(\mathrm{u}^{(l)}\right)\]</span></p>
+<p>4.根据误差计算损失函数对权重的梯度值：</p>
+<p><span
+class="math display">\[\nabla_{\mathrm{W}^{(l)}}L=\delta^{(l)}\left(\mathbf{X}^{(l-1)}\right)^{\mathrm{T}}\]</span></p>
+<p>对偏置的梯度为：</p>
+<p><span
+class="math display">\[\nabla_{\mathfrak{b}^{(l)}}L=\delta^{(l)}\]</span></p>
+<p>5.用梯度下降法更新权重和偏置：</p>
+<p><span
+class="math display">\[\begin{aligned}&amp;\mathbf{W}^{(l)}=\mathbf{W}^{(l)}-\eta\nabla_{\mathbf{W}^{(l)}}L\\&amp;\mathbf{b}^{(l)}=\mathbf{b}^{(l)}-\eta\nabla_{\mathbf{b}^{(l)}}L\end{aligned}\]</span></p>
+<p>实现时需要在正向传播时记住每一层的输入向量<span
+class="math inline">\(x^{(l-1)}\)</span> ，本层的激活函数导数值<span
+class="math inline">\(f^{&#39;}\left(u^{(l)}\right)\)</span></p>
+<p>神经网络的训练算法可以总结为:<br />
+复合函数求导 + 梯度下降法<br />
+训练算法有两个版本：批量模式和单样本模式。批量模式每次梯度下降法迭代时对所有样本计算损失函数值，计算出对这些样本的总误差，然后用梯度下降法更新参数；单样本模式是每次对一个样本进行前向传播，计算对该样本的误差，然后更新参数，它可以天然的支持增量学习，即动态的加入新的训练样本进行训练。</p>
+<p>在数学中，向量一般是列向量，但在编程语言中，向量一般按行存储，即是行向量，因此实现时计算公式略有不同，需要进行转置。正向传播时的计算公式为：</p>
+<p><span
+class="math display">\[\mathbf{u}^{(l)}=\mathbf{x}^{(l-1)}\mathbf{W}^{(l)}+\mathbf{b}^{(l)}\]</span></p>
+<p>反向传播时的计算公式为：</p>
+<p><span
+class="math display">\[\delta^{(l)}=\delta^{(l+1)}\left(\mathrm{W}^{(l+1)}\right)^\mathrm{T}\odot
+f^{\prime}\left(\mathrm{u}^{(l)}\right)\]</span></p>
+<p>对权重矩阵的计算公式为：</p>
+<p><span class="math display">\[\nabla_\text{
+W}L=\left(\mathrm{x}^{(l-1)}\right)^\mathrm{T}\delta^{(l)}\]</span></p>
+<p>这些向量都是行向量。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">强化学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>反向传播算法推导-全连接神经网络</div>
+      <div>https://jiguang1134.github.io/2024/09/05/反向传播算法推导-全连接神经网络/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>极光</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/" title="强化学习PPO">
+                        <span class="hidden-mobile">强化学习PPO</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

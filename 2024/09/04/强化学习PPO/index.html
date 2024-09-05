@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://jiguang1134.github.io/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/ppo1.png">
 <meta property="og:image" content="https://jiguang1134.github.io/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/ppo2.png">
 <meta property="article:published_time" content="2024-09-04T12:29:06.000Z">
-<meta property="article:modified_time" content="2024-09-05T07:18:50.369Z">
+<meta property="article:modified_time" content="2024-09-05T07:27:37.581Z">
 <meta property="article:author" content="极光">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -296,7 +296,7 @@
             
               <div class="markdown-body">
                 
-                <h2 id="强化学习介绍">强化学习介绍</h2>
+                <h1 id="强化学习介绍">强化学习介绍</h1>
 <img src="/2024/09/04/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0PPO/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%8E%9F%E7%90%86%E5%9B%BE.png" srcset="/img/loading.gif" lazyload class="" title="强化学习原理">
 <p><strong>Action Space：</strong> 可选择的动作，比如<span
 class="math inline">\(\{\mathrm{left,~up,~right}\}\)</span></p>
@@ -325,14 +325,14 @@ class="math display">\[E(R(\tau))_{\tau\sim
 P_\theta(\tau)}=\sum_{\tau}R(\tau)P_\theta(\tau)\]</span></p>
 <p><span class="math inline">\({\tau}\)</span>服从分布<span
 class="math inline">\(P_\theta(\tau)\)</span>，<span
-class="math inline">\(P_\theta(\tau)\)</span>是我们要训练的策略网络的参数，我们期望在伸进网络参数<span
+class="math inline">\(P_\theta(\tau)\)</span>是我们要训练的策略网络的参数，我们期望在神经网络参数<span
 class="math inline">\(\theta\)</span>的作用下，<span
 class="math inline">\({\tau}\)</span>获得的Return的期望尽可能的大。</p>
 <p>按照期望的定义，它等于所有的<span
 class="math inline">\({\tau}\)</span>获得的Return乘以<span
 class="math inline">\({\tau}\)</span>的概率的累加。可以用梯度上升的方法使得这个期望尽可能的大。</p>
 <h1 id="策略梯度法-policy-gradient">策略梯度法 Policy gradient</h1>
-<p>先计算梯度，我们智能改变神经网络的参数，而不能改变环境给的reward，所以我们对<span
+<p>先计算梯度，我们只能改变神经网络的参数，而不能改变环境给的reward，所以我们对<span
 class="math inline">\(\theta\)</span>求梯度，并且根据log函数求导公式<span
 class="math inline">\(\nabla\log f(x)=\frac{\nabla
 f(x)}{f(x)}\)</span>可以化简</p>
@@ -656,6 +656,12 @@ class="math display">\[Loss_{ppo2}=-\frac1N\sum_{n=1}^N\sum_{t=1}^{T_n}min(A_{\t
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/09/05/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="反向传播算法推导-全连接神经网络">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">反向传播算法推导-全连接神经网络</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
